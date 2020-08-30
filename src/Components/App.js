@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Header />
       <Route exact path='./' render={() => {
-        <Home />
+        return <Home />
       }}/>
     </div>
   );
