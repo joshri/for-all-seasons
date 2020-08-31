@@ -6,11 +6,10 @@ import Header from './Header'
 
 function App() {
   return (
-    <div className="App">
+    <div >
       <Header />
-      <Route exact path='./' render={() => {
-        return <Home />
-      }}/>
+      <Home />
+      
     </div>
   );
 }

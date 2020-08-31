@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
-import PlaylistDisplay from './PlaylistDisplay'
+import React, { useState, useEffect} from 'react';
 
-class Home extends Component {
-    render() {
+
+
+function Home () {
+    const spotKey = process.env.SPOT_KEY;
+    let [artist, setArtist] = useState('');
+    let [season, setSeason] = useState('neutral');
+
+    useEffect(() => {
+        fetch('http')
+    })
+
         return (
             <div>
-                <PlaylistDisplay />
+                
             </div>
         );
+
     }
-}
+
 
 export default Home;
