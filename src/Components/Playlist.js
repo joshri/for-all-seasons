@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, {useEffect} from 'react';
 
-class Playlist extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
+function Playlist(props) {
+    useEffect(() => {
+        	
+    })
+    return (
+			<div>
+				<h1>hoorah</h1>
+			</div>
+		);
 }
 
 export default Playlist;
