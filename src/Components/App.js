@@ -11,12 +11,19 @@ import { ScriptCache } from './ScriptCache';
 //handle login - get token - initialize player
 
 function App() {
-  let [playerId, setPlayerId] = useState('')
+	let [playerId, setPlayerId] = useState('');
 	let [access, setAccess] = useState('');
 	let [refresh, setRefresh] = useState('');
 	let [id, setId] = useState('');
-  let [artist, setArtist] = useState('Ying Yang Twins');
-  let [tracks, setTracks] = useState('');
+	let [artist, setArtist] = useState('');
+
+	//ying yang image defaults: artist.images
+	// 0: {height: 480, url: "https://i.scdn.co/image/8a522c7faa13cf4321ca6bea075fd97f75f40cfe", width: 480}
+	//1: {height: 200, url: "https://i.scdn.co/image/b434cb66ee3b358bd1707bce3e7371f158184f8c", width: 200}
+	//2: {height: 64, url: "https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1", width: 64}
+
+	//ying yang id default: artist.id = 44PA0rCQXikgOWbfY7Fq7m
+	let [tracks, setTracks] = useState('');
 	let [season, setSeason] = useState('neutral');
 
 	function spotifySDKCallback() {
@@ -50,7 +57,7 @@ function App() {
 
 				// Ready
 				player.addListener('ready', ({ device_id }) => {
-          setPlayerId(device_id);
+					setPlayerId(device_id);
 					console.log('Ready with Device ID', device_id);
 				});
 
@@ -75,7 +82,7 @@ function App() {
 	]);
 
 	useEffect(() => {
-    //grab access token and user id after login
+		//grab access token and user id after login
 		const queryString = require('query-string');
 		let parsed = queryString.parse(window.location.search);
 		setAccess(parsed.accesstoken);
@@ -83,15 +90,21 @@ function App() {
 		setId(parsed.id);
 	}, []);
 
-  //if there is no access token render login
+	//if there is no access token render login
 	if (!access) {
 		return <Login />;
 	} else {
 		return (
 			<div>
-				<Header artist={artist}/>
-        <ArtistForm setArtist={setArtist} />
-				<Home playerId={playerId} setArtist={setArtist} artist={artist} access={access} id={id} />
+				<Header artist={artist} />
+				<ArtistForm access={access} setArtist={setArtist} />
+				<Home
+					playerId={playerId}
+					setArtist={setArtist}
+					artist={artist}
+					access={access}
+					id={id}
+				/>
 				<Playlist artist={artist} access={access} />
 			</div>
 		);

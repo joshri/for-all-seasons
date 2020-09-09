@@ -11,18 +11,28 @@ import React, { useState, useEffect } from 'react';
 function ArtistForm(props) {
 	let formArtist = '';
 
-	const loadArtist = () => {
-        props.setArtist(formArtist)
+	const loadArtist = (event) => {
+        event.preventDefault();
+        fetch(`https://api.spotify.com/v1/search?q=${formArtist}&type=artist`, {
+        headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${props.access}`
+            }
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log(json)
+            props.setArtist(json.artists.items[0])
+        })
+        .catch(err => console.log(err))
+        
     };
 
 	return (
 		<div>
 			<form onSubmit={loadArtist}>
-				<input
-					type='text'
-					placeholder='Ying Yang Twins'
-					onChange={(event) => (formArtist = event.target.value)}></input>
-				<input type='submit'>Change Artist</input>
+				<input type='text' placeholder='Ying Yang Twins' onChange={(event) => (formArtist = event.target.value)}/>
+				<input type='submit' />
 			</form>
 		</div>
 	);
