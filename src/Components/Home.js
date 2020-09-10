@@ -5,10 +5,6 @@ function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let seasonSorted = [];
-	let summer = [];
-	let spring = [];
-	let fall = [];
-	let winter = [];
 
 	//get tracks
 	useEffect(() => {
@@ -32,13 +28,20 @@ function Home(props) {
 				});
 				//grab relevant values out of track object
 				let forTracks = [];
+				let isDupe = false;
 				console.log(popSort)
+				
 				for (let i = 0; i < popSort.length; i++) {
+					isDupe = false;
+					let popTest = popSort[i].name.split('(')[0];
 					for (let j = 0; j < forTracks.length; j++) {
-						if (!popSort[i].name.includes(forTracks[j].name)) {
-							
+						let trackTest = forTracks[j].name.split('(')[0];
+						if (popTest.includes(trackTest) || trackTest.includes(popTest)) {
+							isDupe = true;
+							break;
 						}
 					} 
+					if (isDupe === false) {
 					forTracks.push({
 							name: popSort[i].name,
 							cover: popSort[i].album.images[2],
@@ -46,11 +49,13 @@ function Home(props) {
 							id: popSort[i].id,
 							uri: popSort[i].uri,
 						});	
+					}
 					} 
 				//grab IDs for audio features search and set track objects in state
 				let forIds = [];
 				forTracks.forEach((track) => forIds.push(track.id));
 				setIds(forIds);
+				console.log(forTracks)
 				props.setTracks(forTracks);
 			});
 	}, [props.artist]);
@@ -72,7 +77,7 @@ function Home(props) {
 	if (features.length > 10) {
 		let seasonScore = [];
 		console.log(features);
-		for (let i = 0; i < 48; i++) {
+		for (let i = 0; i < features.length; i++) {
 			//some songs might not have audio features
 			if (
 				!features[i].danceability ||
@@ -84,9 +89,8 @@ function Home(props) {
 			}
 			let score = 0;
 			score =
-				// (features[i].danceability + features[i].energy +
-				// features[i].valence) / 3;
-				features[i].energy;
+				(features[i].danceability + features[i].energy +
+				features[i].valence) / 3;
 			seasonScore.push(score.toFixed(3));
 		}
 
@@ -101,33 +105,12 @@ function Home(props) {
 			return b.seasonScore - a.seasonScore;
 		});
 		console.log(seasonSorted);
-		let i = 0;
-		while (i < 13) {
-			summer.push(seasonSorted[i]);
-			i++;
-		}
-		while (i < 25) {
-			spring.push(seasonSorted[i]);
-			i++;
-		}
-		while (i < 37) {
-			fall.push(seasonSorted[i]);
-			i++;
-		}
-		while (i < 49) {
-			winter.push(seasonSorted[i]);
-			i++;
-		}
-		winter.reverse();
-		fall.reverse();
+		
 	}
 
 	return (
 		<div>
-			<Playlist play={props.play} playlist={winter} />
-			<Playlist play={props.play} playlist={fall} />
-			<Playlist play={props.play} playlist={spring} />
-			<Playlist play={props.play} playlist={summer} />
+			<Playlist play={props.play} playlist={seasonSorted} />
 		</div>
 	);
 }
