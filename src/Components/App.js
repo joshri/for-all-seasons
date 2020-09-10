@@ -98,7 +98,7 @@ function App() {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${access}`,
 			},
-			body: { "uris": [uri] },
+			body: JSON.stringify({ "uris": [uri] }),
 		}).catch((err) => console.log(err));
 	}
 

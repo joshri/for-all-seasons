@@ -31,15 +31,22 @@ function Home(props) {
 					return b.popularity - a.popularity;
 				});
 				//grab relevant values out of track object
-				let forTracks = popSort.map((track) => {
-					return {
-						name: track.name,
-						cover: track.album.images[2],
-						artists: track.artists,
-						id: track.id,
-						uri: track.uri,
-					};
-				});
+				let forTracks = [];
+				console.log(popSort)
+				for (let i = 0; i < popSort.length; i++) {
+					for (let j = 0; j < forTracks.length; j++) {
+						if (!popSort[i].name.includes(forTracks[j].name)) {
+							
+						}
+					} 
+					forTracks.push({
+							name: popSort[i].name,
+							cover: popSort[i].album.images[2],
+							artists: popSort[i].artists,
+							id: popSort[i].id,
+							uri: popSort[i].uri,
+						});	
+					} 
 				//grab IDs for audio features search and set track objects in state
 				let forIds = [];
 				forTracks.forEach((track) => forIds.push(track.id));
@@ -77,8 +84,9 @@ function Home(props) {
 			}
 			let score = 0;
 			score =
-				(features[i].danceability + features[i].energy + features[i].valence) /
-				3;
+				// (features[i].danceability + features[i].energy +
+				// features[i].valence) / 3;
+				features[i].energy;
 			seasonScore.push(score.toFixed(3));
 		}
 
@@ -96,33 +104,32 @@ function Home(props) {
 		let i = 0;
 		while (i < 13) {
 			summer.push(seasonSorted[i]);
-			i++
+			i++;
 		}
 		while (i < 25) {
 			spring.push(seasonSorted[i]);
-			i++
+			i++;
 		}
 		while (i < 37) {
 			fall.push(seasonSorted[i]);
-			i++
+			i++;
 		}
 		while (i < 49) {
 			winter.push(seasonSorted[i]);
-			i++
+			i++;
 		}
 		winter.reverse();
 		fall.reverse();
 	}
 
-		return (
-			<div>
-				<Playlist play={props.play} playlist={winter} />
-				<Playlist play={props.play} playlist={fall} />
-				<Playlist play={props.play} playlist={spring} />
-				<Playlist play={props.play} playlist={summer} />
-			</div>
-		);
-	}
-
+	return (
+		<div>
+			<Playlist play={props.play} playlist={winter} />
+			<Playlist play={props.play} playlist={fall} />
+			<Playlist play={props.play} playlist={spring} />
+			<Playlist play={props.play} playlist={summer} />
+		</div>
+	);
+}
 
 export default Home;

@@ -5,7 +5,7 @@ function Login(props) {
 			<div>
 				<h1>Welcome to Ying Yang Twins: For All Seasons!</h1>
 				<h3>spotify log in:</h3>
-				<a href='http://localhost:3000/auth/spotify'>press</a>
+				<a href='https://seasons-backend.herokuapp.com/auth/spotify'>press</a>
 			</div>
 		);
 }
