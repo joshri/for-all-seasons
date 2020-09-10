@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Route } from 'react-router-dom';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
 import ArtistForm from './ArtistForm';
 import Playlist from './Playlist';
+import Player from './Player';
 import { ScriptCache } from './ScriptCache';
 
 //handle login - get token - initialize player
@@ -88,7 +88,19 @@ function App() {
 		setAccess(parsed.accesstoken);
 		setRefresh(parsed.refreshtoken);
 		setId(parsed.id);
-	}, []);
+  }, []);
+  
+  //play funtion for links and player
+	function play(uri) {
+		fetch(`https://api.spotify.com/v1/me/player/play?device_id=${playerId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${access}`,
+			},
+			body: { "uris": [uri] },
+		}).catch((err) => console.log(err));
+	}
 
 	//if there is no access token render login
 	if (!access) {
@@ -98,12 +110,16 @@ function App() {
 			<div>
 				<Header artist={artist} />
 				<ArtistForm access={access} setArtist={setArtist} />
+        <Player playerId={playerId} play={play} access={access}/>
 				<Home
 					playerId={playerId}
 					setArtist={setArtist}
 					artist={artist}
+					setTracks={setTracks}
+					tracks={tracks}
 					access={access}
-					id={id}
+          id={id}
+          play={play}
 				/>
 				<Playlist artist={artist} access={access} />
 			</div>

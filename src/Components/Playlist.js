@@ -1,12 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 function Playlist(props) {
-    useEffect(() => {
-        	
-    })
+    let display = [];
+
+    if (props.playlist) {
+    display = props.playlist.map(song => {
+        
+    return <li onClick={() => props.play(song.uri)}>{song.name}</li>
+})
+    }
     return (
 			<div>
-				<h1>hoorah</h1>
+                <ul>{display || 'LOADING'}</ul>
 			</div>
 		);
 }
