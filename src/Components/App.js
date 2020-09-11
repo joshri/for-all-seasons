@@ -24,6 +24,7 @@ function App() {
 
 	//ying yang id default: artist.id = 44PA0rCQXikgOWbfY7Fq7m
 	let [tracks, setTracks] = useState('');
+
 	let [season, setSeason] = useState('neutral');
 
 	function spotifySDKCallback() {
@@ -88,19 +89,9 @@ function App() {
 		setAccess(parsed.accesstoken);
 		setRefresh(parsed.refreshtoken);
 		setId(parsed.id);
-  }, []);
-  
-  //play funtion for links and player
-	function play(uri) {
-		fetch(`https://api.spotify.com/v1/me/player/play?device_id=${playerId}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${access}`,
-			},
-			body: JSON.stringify({ "uris": [uri] }),
-		}).catch((err) => console.log(err));
-	}
+	}, []);
+
+
 
 	//if there is no access token render login
 	if (!access) {
@@ -108,9 +99,9 @@ function App() {
 	} else {
 		return (
 			<div>
-				<Header artist={artist} />
-				<ArtistForm access={access} setArtist={setArtist} />
-        <Player playerId={playerId} play={play} access={access}/>
+				<Header artist={artist} access={access} setArtist={setArtist} />
+				
+				
 				<Home
 					playerId={playerId}
 					setArtist={setArtist}
@@ -118,8 +109,8 @@ function App() {
 					setTracks={setTracks}
 					tracks={tracks}
 					access={access}
-          id={id}
-          play={play}
+					id={id}
+					
 				/>
 			</div>
 		);

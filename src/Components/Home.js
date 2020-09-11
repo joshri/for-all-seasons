@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable,
-} from 'react-reorder';
+import Player from './Player';
 
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
-	let seasonSorted = [];
-	let forIndexReset = [];
+	let [currentlyPlaying, setCurrentlyPlaying] = useState({
+		name: 'Click Play on a Song!!',
+		cover: 'https://i.scdn.co/image/b434cb66ee3b358bd1707bce3e7371f158184f8c',
+		artists: ['Ying Yang Twins'],
+	});
+	let [seasonSorted, setSeasonSorted] = useState([])
+
+	//play function for links and player
+	function play(track) {
+		setCurrentlyPlaying({
+			name: track.name,
+			cover: track.cover,
+			artists: track.artists,
+		});
+		fetch(`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${props.access}`,
+			},
+			body: JSON.stringify({ uris: [track.uri] }),
+		}).catch((err) => console.log(err));
+	}
 
 	//get tracks
 	useEffect(() => {
@@ -82,8 +98,9 @@ function Home(props) {
 			});
 	}, [props.tracks]);
 
-	//if features are set, sort by feature values
-	if (features.length > 10) {
+	async function sortResult() {
+		await useEffect;
+	
 		let seasonScore = [];
 		console.log(features);
 		for (let i = 0; i < features.length; i++) {
@@ -110,20 +127,27 @@ function Home(props) {
 			obj.seasonScore = seasonScore[scoreIncrement];
 			scoreIncrement++;
 		});
-		let seasonSorted = props.tracks.sort(function (a, b) {
+		let seasonSorted2 = props.tracks.sort(function (a, b) {
 			return b.seasonScore - a.seasonScore;
 		});
-		console.log(seasonSorted)
-	}
-	if (seasonSorted.length) {
+		setSeasonSorted(seasonSorted2);
+}
+
+sortResult()
+	
 		return (
 			<div>
-				<Playlist play={props.play} playlist={seasonSorted} />
+				<Player
+					playlist={seasonSorted}
+					playerId={props.playerId}
+					play={play}
+					access={props.access}
+					currentlyPlaying={currentlyPlaying}
+				/>
+				<Playlist play={play} playlist={seasonSorted} />
 			</div>
 		);
-	} else {
-		return <p>LOADING</p>;
-	}
+	
 }
 
 export default Home;
