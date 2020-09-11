@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
+import Reorder, {
+	reorder,
+	reorderImmutable,
+	reorderFromTo,
+	reorderFromToImmutable,
+} from 'react-reorder';
 
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let seasonSorted = [];
+	let forIndexReset = [];
 
 	//get tracks
 	useEffect(() => {
@@ -26,13 +33,14 @@ function Home(props) {
 				let popSort = res.tracks.items.sort(function (a, b) {
 					return b.popularity - a.popularity;
 				});
-				//grab relevant values out of track object
+				//search for remixes/duplicates
 				let forTracks = [];
 				let isDupe = false;
-				console.log(popSort)
-				
+				console.log(popSort);
+
 				for (let i = 0; i < popSort.length; i++) {
 					isDupe = false;
+					//left paren is indicator of a remixed version
 					let popTest = popSort[i].name.split('(')[0];
 					for (let j = 0; j < forTracks.length; j++) {
 						let trackTest = forTracks[j].name.split('(')[0];
@@ -40,22 +48,23 @@ function Home(props) {
 							isDupe = true;
 							break;
 						}
-					} 
+					}
 					if (isDupe === false) {
-					forTracks.push({
+						//relevent values out of track object
+						forTracks.push({
 							name: popSort[i].name,
 							cover: popSort[i].album.images[2],
 							artists: popSort[i].artists,
 							id: popSort[i].id,
 							uri: popSort[i].uri,
-						});	
+						});
 					}
-					} 
+				}
 				//grab IDs for audio features search and set track objects in state
 				let forIds = [];
 				forTracks.forEach((track) => forIds.push(track.id));
 				setIds(forIds);
-				console.log(forTracks)
+				console.log(forTracks);
 				props.setTracks(forTracks);
 			});
 	}, [props.artist]);
@@ -89,30 +98,32 @@ function Home(props) {
 			}
 			let score = 0;
 			score =
-				(features[i].danceability + features[i].energy +
-				features[i].valence) / 3;
+				(features[i].danceability + features[i].energy + features[i].valence) /
+				3;
 			seasonScore.push(score.toFixed(3));
 		}
 
 		console.log(seasonScore);
+		//add sort ranking to track objects
 		let scoreIncrement = 0;
 		props.tracks.forEach((obj) => {
 			obj.seasonScore = seasonScore[scoreIncrement];
 			scoreIncrement++;
 		});
-		console.log(props.tracks);
-		seasonSorted = props.tracks.sort(function (a, b) {
+		let seasonSorted = props.tracks.sort(function (a, b) {
 			return b.seasonScore - a.seasonScore;
 		});
-		console.log(seasonSorted);
-		
+		console.log(seasonSorted)
 	}
-
-	return (
-		<div>
-			<Playlist play={props.play} playlist={seasonSorted} />
-		</div>
-	);
+	if (seasonSorted.length) {
+		return (
+			<div>
+				<Playlist play={props.play} playlist={seasonSorted} />
+			</div>
+		);
+	} else {
+		return <p>LOADING</p>;
+	}
 }
 
 export default Home;

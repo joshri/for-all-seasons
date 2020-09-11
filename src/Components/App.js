@@ -121,7 +121,6 @@ function App() {
           id={id}
           play={play}
 				/>
-				<Playlist artist={artist} access={access} />
 			</div>
 		);
 	}
