@@ -57,38 +57,44 @@ function Playlist(props) {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${props.access}`,
 			},
-        }).then((res) => res.json())
-        .then(json => {
-            console.log(json)
-            let playing = {uri: json.item.uri, isPlaying: json.is_playing}
-            return playing;
-        })
-        
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				console.log(json);
+				let playing = { uri: json.item.uri, isPlaying: json.is_playing };
+				return playing;
+			});
 	}
 
-	 function playNext() {
-        fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${props.access}`,
-					},
-				})
-					.then((res) => res.json())
-					.then((json) => {
-						console.log(json);
-						let playing = { uri: json.item.uri, isPlaying: json.is_playing };
-						
-                        let next = '';
-                        for (let i = 0; i < props.playlist.length; i++) {
-                            if (props.playlist[i].uri === playing.uri) {
-                                next = props.playlist[i + 1];
-                                break;
-                            }
-                    }
-                    play(next);
-                });
-		}
-	
+	function playNextOrPrevious(event) {
+		event.persist();
+		fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${props.access}`,
+			},
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				console.log(json);
+				let playing = { uri: json.item.uri, isPlaying: json.is_playing };
+
+				let next = '';
+				let previous = '';
+				for (let i = 0; i < props.playlist.length; i++) {
+					if (props.playlist[i].uri === playing.uri) {
+						next = props.playlist[i + 1];
+						previous = props.playlist[i - 1];
+						break;
+					}
+				}
+				if (event.target.id === 'next') {
+					play(next);
+				} else if (event.target.id === 'previous') {
+					play(previous);
+				}
+			});
+	}
 
 	return (
 		<div>
@@ -102,7 +108,12 @@ function Playlist(props) {
 				</ul>
 
 				<button onClick={pause}>pause</button>
-				<button onClick={playNext}>next</button>
+				<button id='next' onClick={playNextOrPrevious}>
+					next
+				</button>
+				<button id='previous' onClick={playNextOrPrevious}>
+					previous
+				</button>
 				<input
 					type='range'
 					min='0'
