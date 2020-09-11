@@ -12,26 +12,30 @@ function ArtistForm(props) {
 	let formArtist = '';
 
 	const loadArtist = (event) => {
-        event.preventDefault();
-        fetch(`https://api.spotify.com/v1/search?q=${formArtist}&type=artist`, {
-        headers: {
+		event.preventDefault();
+		//pause playback in case song is playing
+		fetch(`https://api.spotify.com/v1/search?q=${formArtist}&type=artist`, {
+			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${props.access}`
-            }
-        })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json)
-            props.setArtist(json.artists.items[0])
-        })
-        .catch(err => console.log(err))
-        
-    };
+				Authorization: `Bearer ${props.access}`,
+			},
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				console.log(json);
+				props.setArtist(json.artists.items[0]);
+			})
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<div>
 			<form onSubmit={loadArtist}>
-				<input type='text' placeholder='Ying Yang Twins' onChange={(event) => (formArtist = event.target.value)}/>
+				<input
+					type='text'
+					placeholder='Ying Yang Twins'
+					onChange={(event) => (formArtist = event.target.value)}
+				/>
 				<input type='submit' />
 			</form>
 		</div>

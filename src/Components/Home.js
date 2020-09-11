@@ -1,33 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
-import Player from './Player';
+
 
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
-	let [currentlyPlaying, setCurrentlyPlaying] = useState({
-		name: 'Click Play on a Song!!',
-		cover: 'https://i.scdn.co/image/b434cb66ee3b358bd1707bce3e7371f158184f8c',
-		artists: ['Ying Yang Twins'],
-	});
-	let [seasonSorted, setSeasonSorted] = useState([])
 
-	//play function for links and player
-	function play(track) {
-		setCurrentlyPlaying({
-			name: track.name,
-			cover: track.cover,
-			artists: track.artists,
-		});
-		fetch(`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${props.access}`,
-			},
-			body: JSON.stringify({ uris: [track.uri] }),
-		}).catch((err) => console.log(err));
-	}
+	let seasonSorted = [];
 
 	//get tracks
 	useEffect(() => {
@@ -52,7 +31,6 @@ function Home(props) {
 				//search for remixes/duplicates
 				let forTracks = [];
 				let isDupe = false;
-				console.log(popSort);
 
 				for (let i = 0; i < popSort.length; i++) {
 					isDupe = false;
@@ -80,10 +58,11 @@ function Home(props) {
 				let forIds = [];
 				forTracks.forEach((track) => forIds.push(track.id));
 				setIds(forIds);
-				console.log(forTracks);
+
 				props.setTracks(forTracks);
 			});
 	}, [props.artist]);
+
 	//once tracks are set, use ids to set audio features
 	useEffect(() => {
 		fetch(`https://api.spotify.com/v1/audio-features/?ids=${ids.join(',')}`, {
@@ -98,11 +77,9 @@ function Home(props) {
 			});
 	}, [props.tracks]);
 
-	async function sortResult() {
-		await useEffect;
-	
+	if (features.length > 3) {
 		let seasonScore = [];
-		console.log(features);
+
 		for (let i = 0; i < features.length; i++) {
 			//some songs might not have audio features
 			if (
@@ -127,27 +104,16 @@ function Home(props) {
 			obj.seasonScore = seasonScore[scoreIncrement];
 			scoreIncrement++;
 		});
-		let seasonSorted2 = props.tracks.sort(function (a, b) {
+		seasonSorted = props.tracks.sort(function (a, b) {
 			return b.seasonScore - a.seasonScore;
 		});
-		setSeasonSorted(seasonSorted2);
-}
+	}
 
-sortResult()
-	
-		return (
-			<div>
-				<Player
-					playlist={seasonSorted}
-					playerId={props.playerId}
-					play={play}
-					access={props.access}
-					currentlyPlaying={currentlyPlaying}
-				/>
-				<Playlist play={play} playlist={seasonSorted} />
-			</div>
-		);
-	
+	return (
+		<div>
+			<Playlist playlist={seasonSorted} access={props.access}playerId={props.playerId}/>
+		</div>
+	);
 }
 
 export default Home;

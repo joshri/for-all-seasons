@@ -3,9 +3,6 @@ import './App.css';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
-import ArtistForm from './ArtistForm';
-import Playlist from './Playlist';
-import Player from './Player';
 import { ScriptCache } from './ScriptCache';
 
 //handle login - get token - initialize player
