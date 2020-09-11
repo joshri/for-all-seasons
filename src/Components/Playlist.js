@@ -51,7 +51,7 @@ function Playlist(props) {
 			}
 		);
 	}
-	function getPlaying() {
+	function playerPlay() {
 		fetch('https://api.spotify.com/v1/me/player/currently-playing', {
 			headers: {
 				'Content-Type': 'application/json',
@@ -60,9 +60,21 @@ function Playlist(props) {
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				console.log(json);
-				let playing = { uri: json.item.uri, isPlaying: json.is_playing };
-				return playing;
+				if (json.is_playing === true) {
+					return;
+				} else {
+					fetch(
+						`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`,
+						{
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'application/json',
+								Authorization: `Bearer ${props.access}`,
+							},
+							body: JSON.stringify({ uris: [json.item.uri], position_ms: json.progress_ms }),
+						}
+					).catch((err) => console.log(err));
+				}
 			});
 	}
 
@@ -106,14 +118,15 @@ function Playlist(props) {
 						<li>{x.name}</li>
 					))}
 				</ul>
-
-				<button onClick={pause}>pause</button>
-				<button id='next' onClick={playNextOrPrevious}>
-					next
-				</button>
 				<button id='previous' onClick={playNextOrPrevious}>
 					previous
 				</button>
+				<button onClick={pause}>pause</button>
+				<button onClick={playerPlay}>play</button>
+				<button id='next' onClick={playNextOrPrevious}>
+					next
+				</button>
+
 				<input
 					type='range'
 					min='0'
