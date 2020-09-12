@@ -3,6 +3,7 @@ import './App.css';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
+
 import { ScriptCache } from './ScriptCache';
 
 //handle login - get token - initialize player
@@ -13,15 +14,8 @@ function App() {
 	let [refresh, setRefresh] = useState('');
 	let [id, setId] = useState('');
 	let [artist, setArtist] = useState('');
-
-	//ying yang image defaults: artist.images
-	// 0: {height: 480, url: "https://i.scdn.co/image/8a522c7faa13cf4321ca6bea075fd97f75f40cfe", width: 480}
-	//1: {height: 200, url: "https://i.scdn.co/image/b434cb66ee3b358bd1707bce3e7371f158184f8c", width: 200}
-	//2: {height: 64, url: "https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1", width: 64}
-
-	//ying yang id default: artist.id = 44PA0rCQXikgOWbfY7Fq7m
 	let [tracks, setTracks] = useState('');
-
+  let [fade, setFade] = useState(false)
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access) {
@@ -80,23 +74,22 @@ function App() {
 	useEffect(() => {
 		//grab access token and user id after login
 		const queryString = require('query-string');
-		let parsed = queryString.parse(window.location.search);
+    let parsed = queryString.parse(window.location.search);
+    
 		setAccess(parsed.accesstoken);
 		setRefresh(parsed.refreshtoken);
-		setId(parsed.id);
+    setId(parsed.id);
+    
+    
 	}, []);
-
-
 
 	//if there is no access token render login
 	if (!access) {
 		return <Login />;
 	} else {
 		return (
-			<div>
+			<div style={{ opacity: 0, animation: 'fadeIn 1.5s ease-in forwards' }}>
 				<Header artist={artist} access={access} setArtist={setArtist} />
-				
-				
 				<Home
 					playerId={playerId}
 					setArtist={setArtist}
@@ -105,7 +98,6 @@ function App() {
 					tracks={tracks}
 					access={access}
 					id={id}
-					
 				/>
 			</div>
 		);

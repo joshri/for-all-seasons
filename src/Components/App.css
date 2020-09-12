@@ -1,3 +1,53 @@
-.header {
-    display: flex;
+body {
+	font-family: 'Montserrat', sans-serif;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.title {
+	width: 100vw;
+	font-family: 'Sacramento', cursive;
+	font-size: 10vw;
+	margin-top: 30vh;
+	margin-right: 1vw;
+	margin-bottom: 0;
+	margin-left: 20vw;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+label {
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+button {
+	padding: 5px;
+	margin: 5px;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid black;
+	transition: color 0.5s;
+	transition: border-color 0.5s;
+}
+
+button:hover {
+	border-color: orange;
+	color: orange;
+
+	padding-top: 0;
+}
+
+
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

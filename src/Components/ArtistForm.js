@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
-//ying yang twins artist search request: 'https://api.spotify.com/v1/search?q=ying%20yang%20twins&type=artist'
-// artist id: "44PA0rCQXikgOWbfY7Fq7m", from search: artists[0].images (array of three with heights 480, 200, 64), artists[0].name.
-
-//ying yang twins track search request: 'https://api.spotify.com/v1/search?q=artist:ying%20yang%20twins&type=track&limit=50' (&offset=50) <- search is in res.tracks.next
-//pretty accurate in terms of high to low popularity. tracks.items[index].id - could potentially offset to index 50 to get 100 results to max out audio features analysis.
-
-//audio features by id: set a variable for each track's danceability, energy, and valence divided by three to weight equally (may change) (tempo? BPM apparently included in danceability). valence is literally about weighing happy vs sad sounding, so it might be interesting to increase weight of valence
+import About from './About'
 
 function ArtistForm(props) {
+    const [show, setShow] = useState(false);
+   const handleShow = () => props.setShow(true);
 	let formArtist = '';
 
 	const loadArtist = (event) => {
@@ -30,14 +25,46 @@ function ArtistForm(props) {
 
 	return (
 		<div>
-			<form onSubmit={loadArtist}>
-				<input
-					type='text'
-					placeholder='Ying Yang Twins'
-					onChange={(event) => (formArtist = event.target.value)}
-				/>
-				<input type='submit' />
-			</form>
+            <About show={show} setShow={setShow} />
+			<div
+				style={{
+					margin: '10px 10px 10px 10px',
+					display: 'flex',
+					justifyContent: 'space-between',
+				}}>
+				<form onSubmit={loadArtist}>
+					<label for='artist'>Artist:</label>
+					<input
+						style={{ height: '4vh', width: '40vw', backgroundColor: '#F2FD89' }}
+						id='artist'
+						type='text'
+						placeholder='Ying Yang Twins'
+						onChange={(event) => (formArtist = event.target.value)}
+					/>
+					<button
+						style={{
+							height: '4vh',
+							width: '20vw',
+							marginLeft: '5px',
+							alignItems: 'center',
+							backgroundColor: 'transparent',
+							fontSize: '14px',
+						}}
+						type='submit'>
+						submit
+					</button>
+				</form>
+				<button
+					onClick={handleShow}
+					style={{
+						height: '4vh',
+						alignItems: 'center',
+						backgroundColor: 'transparent',
+						fontSize: '14px',
+					}}>
+					about
+				</button>
+			</div>
 		</div>
 	);
 }
