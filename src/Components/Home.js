@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
 
-
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
@@ -111,7 +110,11 @@ function Home(props) {
 
 	return (
 		<div>
-			<Playlist playlist={seasonSorted} access={props.access}playerId={props.playerId}/>
+			<Playlist
+				playlist={seasonSorted}
+				access={props.access}
+				playerId={props.playerId}
+			/>
 		</div>
 	);
 }

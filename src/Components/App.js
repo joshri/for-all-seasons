@@ -22,8 +22,6 @@ function App() {
 	//ying yang id default: artist.id = 44PA0rCQXikgOWbfY7Fq7m
 	let [tracks, setTracks] = useState('');
 
-	let [season, setSeason] = useState('neutral');
-
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access) {
