@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
+import Spinner from 'react-bootstrap/Spinner'
 
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let [seasonSorted, setSeasonSorted] = useState([]);
+	let [season, setSeason] = useState(props.playlist);
+	let [background, setBackground] = useState(
+		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
+	);
 
 	//break down state for useEffect dependencies
 	let access = props.access;
@@ -120,11 +125,7 @@ function Home(props) {
 	}, [features]);
 
 	if (!seasonSorted.length) {
-		return (
-			<div>
-				Loading
-			</div>
-		)
+		return <div style={{ background: '#CEB0D6', width: '100vw', height: '100vh' }}><Spinner></Spinner>Loading</div>;
 	} else {
 
 		return (
@@ -133,7 +134,8 @@ function Home(props) {
 					playlist={seasonSorted}
 					access={props.access}
 					playerId={props.playerId}
-					
+					userId={props.id}
+					artist={artist}
 				/>
 			</div>
 		);

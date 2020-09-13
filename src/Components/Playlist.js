@@ -13,8 +13,9 @@ function Playlist(props) {
 	let [season, setSeason] = useState(props.playlist);
 	let [background, setBackground] = useState(
 		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
-    );
-    
+	);
+	let [seasonWord, setSeasonWord] = useState('All Seasons');
+	console.log(props.userId);
 
 	useEffect(() => setSeason(props.playlist), [props]);
 
@@ -130,33 +131,102 @@ function Playlist(props) {
 	}
 	//TODO: separate into player component again
 
+	function createPlaylist() {
+		//setup
+		let name = `${props.artist.name} - ${seasonWord}`;
+		let id = '';
+		let uris = [];
+		season.forEach((song) => uris.push(song.uri));
+		console.log(uris);
+
+		console.log(name);
+		//create playlist endpoint
+		fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${props.access}`,
+			},
+			body: JSON.stringify({
+				name: name,
+				public: false,
+				description: 'A glorious playlist from Ying Yang Twins for all seasons',
+			}),
+		})
+			.then((res) => res.json())
+			.catch((err) => console.log(err))
+			.then(
+				fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${props.access}`,
+					},
+				})
+					.then((res) => res.json())
+					.then((res) => {
+						res.items.forEach((playlist) => {
+							if (playlist.name === name) {
+								id = playlist.id;
+							}
+						});
+					})
+					.catch((err) => console.log(err))
+			)
+			.then(
+				//add playlist
+
+				fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${props.access}`,
+					},
+					body: uris,
+				}).then((res) => res.json())
+			)
+			.catch((err) => console.log(err));
+	}
+
 	return (
-		<div>
+		<div style={{ backgroundColor: '#CEB0D6' }}>
 			<div
 				style={{
-					// background: '#DCDFDE',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
 					height: '25vh',
 					width: '90vw',
-					margin: '10px',
+					margin: '5vw',
 					border: '2px solid black',
-					position: 'fixed',
+					padding: '10px',
+					borderRadius: '10px',
 				}}>
-				<div style={{ display: 'flex', marginLeft: '5px', width: '100vw' }}>
-					<img src={currentlyPlaying.cover} />
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						width: '80vw',
+						marginTop: '10px',
+					}}>
+					<img
+						style={{ marginTop: '5px', maxHeight: '64px', maxWidth: '64px' }}
+						src={currentlyPlaying.cover}
+					/>
 					<div
 						style={{
 							display: 'flex',
 							flexDirection: 'column',
-							width: '100vw',
-							marginLeft: '5px',
+							width: '90vw',
+
 							alignItems: 'center',
 						}}>
 						<h3 style={{ fontSize: '16px' }}>{currentlyPlaying.name}</h3>
 						<div
 							style={{
 								display: 'flex',
-								alignItems: 'space-between',
-								overflow: 'scroll',
+								alignItems: 'space-evenly',
+								flexWrap: 'wrap',
 							}}>
 							{currentlyPlaying.artists.map((x) => (
 								<p style={{ fontSize: '14px' }}>{x.name}</p>
@@ -200,7 +270,7 @@ function Playlist(props) {
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
-						marginTop: '10px',
+						marginTop: '0px',
 					}}>
 					<button
 						onClick={() => {
@@ -208,6 +278,7 @@ function Playlist(props) {
 								'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
 							);
 							setSeason(props.playlist);
+							setSeasonWord('All Seasons');
 						}}>
 						all
 					</button>
@@ -216,6 +287,7 @@ function Playlist(props) {
 						onClick={() => {
 							setSeason(props.playlist.slice(0, seasonInterval));
 							setBackground('linear-gradient(#FF5629, #FFFFFF)');
+							setSeasonWord('Summer');
 						}}>
 						summer
 					</button>
@@ -225,6 +297,7 @@ function Playlist(props) {
 							setSeason(
 								props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
 							);
+							setSeasonWord('Spring');
 						}}>
 						spring
 					</button>
@@ -235,6 +308,7 @@ function Playlist(props) {
 							setSeason(
 								props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
 							);
+							setSeasonWord('Fall');
 						}}>
 						fall
 					</button>
@@ -242,13 +316,39 @@ function Playlist(props) {
 						onClick={() => {
 							setBackground('linear-gradient(#6CFFDB, #FFFFFF)');
 							setSeason(props.playlist.slice(seasonInterval * 3));
+							setSeasonWord('Winter');
 						}}>
 						winter
 					</button>
 				</div>
 			</div>
-			<div style={{}}>
-				<ListGroup style={{  background: background }}>
+			<div
+				style={{
+					width: '90vw',
+					marginLeft: '5vw',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}>
+				<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+					<h1
+						style={{
+							fontSize: '200%',
+							fontFamily: "'Sacramento', cursive",
+
+							margin: '5px',
+						}}>
+						{seasonWord}
+					</h1>
+					<button style={{ fontSize: '14px' }} onClick={createPlaylist}>
+						Save to Spotify
+					</button>
+				</div>
+				<ListGroup
+					style={{
+						background: background,
+						border: '2px solid black',
+						borderRadius: '10px',
+					}}>
 					{season.map((track) => {
 						return (
 							<ListGroup.Item
@@ -261,7 +361,7 @@ function Playlist(props) {
 									background: 'transparent',
 								}}>
 								<h5 style={{ fontSize: '16px' }}>
-									{track.seasonScore} {track.name}
+									{track.seasonScore} - {track.name}
 								</h5>
 								<button
 									onClick={() => {

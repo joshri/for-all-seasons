@@ -10,7 +10,7 @@ function Login(props) {
 				flexDirection: 'column',
 				alignItems: 'center',
 				animation: 'fadeIn 1.5s ease-in forwards',
-				backgroundColor: '#F2FD89',
+				backgroundColor: '#CEB0D6',
 				backgroundSize: 'cover',
 				minHeight: '100vh',
 				minWidth: '100vw',
@@ -38,7 +38,13 @@ function Login(props) {
 			</h3>
 			<a
 				href='http://localhost:8080/auth/spotify'
-				style={{ animation: 'fadeIn 1.5s 3s ease-in forwards', border: '1px solid black', opacity: 0, borderRadius: '5px', padding: '5px' }}>
+				style={{
+					animation: 'fadeIn 1.5s 3s ease-in forwards',
+					border: '1px solid black',
+					opacity: 0,
+					borderRadius: '5px',
+					padding: '5px',
+				}}>
 				login
 			</a>
 		</div>

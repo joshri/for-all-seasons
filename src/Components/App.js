@@ -13,9 +13,9 @@ function App() {
 	let [access, setAccess] = useState('');
 	let [refresh, setRefresh] = useState('');
 	let [id, setId] = useState('');
-	let [artist, setArtist] = useState('');
+	let [artist, setArtist] = useState({name: 'Ying Yang Twins'});
 	let [tracks, setTracks] = useState('');
-  let [fade, setFade] = useState(false)
+  
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access) {
@@ -88,7 +88,12 @@ function App() {
 		return <Login />;
 	} else {
 		return (
-			<div style={{ opacity: 0, animation: 'fadeIn 1.5s ease-in forwards' }}>
+			<div
+				style={{
+					opacity: 0,
+					animation: 'fadeIn 1.5s ease-in forwards',
+					backgroundColor: '#CEB0D6',
+				}}>
 				<Header artist={artist} access={access} setArtist={setArtist} />
 				<Home
 					playerId={playerId}

@@ -1,4 +1,4 @@
-body {
+html {
 	font-family: 'Montserrat', sans-serif;
 	margin: 0 !important;
 	padding: 0 !important;
@@ -41,8 +41,9 @@ button:hover {
 	padding-top: 0;
 }
 
-
-
+.modal {
+	background: '#E5CCEC';
+}
 @keyframes fadeIn {
 	0% {
 		opacity: 0;

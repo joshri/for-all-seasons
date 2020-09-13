@@ -1,6 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 function Player(props) {
+    let [volume, setVolume] = useState(50);
+		let [currentlyPlaying, setCurrentlyPlaying] = useState({
+			name: 'Click Play on a Song!!',
+			cover: 'https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1',
+			artists: [{ name: 'Ying Yang Twins' }],
+		});
+		// let [playlist, setPlaylist] = useState(props.playlist);
+		let seasonInterval = Math.floor(props.playlist.length / 4);
+		
 	//play function for links and player
 	function play(track) {
 		setCurrentlyPlaying({

@@ -5,8 +5,12 @@ function About(props) {
 	
 
 	return (
-		<Modal show={props.show} onHide={props.handleClose}>
-			<Modal.Header closeButton>
+		<Modal
+            scrollable={true}
+			show={props.show}
+			onHide={props.handleClose}
+            dialogClassName={'modal'}>
+			<Modal.Header closeButton >
 				<Modal.Title>WHAT AM I LOOKING AT?</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
@@ -24,7 +28,9 @@ function About(props) {
 				the playlist to your account if you like it enough. Created using React,
 				a little React Bootstrap, Node, Express, and a lot of love by Joshua
 				Israel. Code available at{' '}
-				<a style={{textDecoration: 'underline'}} href='https://github.com/joshri/for-all-season'>
+				<a
+					style={{ textDecoration: 'underline' }}
+					href='https://github.com/joshri/for-all-season'>
 					github.com/joshri/for-all-seasons
 				</a>
 			</Modal.Body>

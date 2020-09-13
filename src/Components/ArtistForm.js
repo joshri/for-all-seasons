@@ -39,11 +39,13 @@ function ArtistForm(props) {
 						style={{
 							height: '4vh',
 							width: '40vw',
-							backgroundColor: '#DCDFDE',
+                            backgroundColor: '#CEB0D6',
+                            border: '2px solid black',
+                            borderRadius: '10px'
 						}}
 						id='artist'
 						type='text'
-						placeholder='Ying Yang Twins'
+						placeholder=' Ying Yang Twins'
 						onChange={(event) => (formArtist = event.target.value)}
 					/>
 					<button
@@ -54,6 +56,7 @@ function ArtistForm(props) {
 							alignItems: 'center',
 							backgroundColor: 'transparent',
 							fontSize: '14px',
+							border: 'none',
 						}}
 						type='submit'>
 						submit
