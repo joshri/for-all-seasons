@@ -3,7 +3,8 @@ import About from './About'
 
 function ArtistForm(props) {
     const [show, setShow] = useState(false);
-   const handleShow = () => props.setShow(true);
+   const handleShow = () => setShow(true);
+   const handleClose = () => setShow(false);
 	let formArtist = '';
 
 	const loadArtist = (event) => {
@@ -25,7 +26,7 @@ function ArtistForm(props) {
 
 	return (
 		<div>
-            <About show={show} setShow={setShow} />
+            <About show={show} handleClose={handleClose} />
 			<div
 				style={{
 					margin: '10px 10px 10px 10px',

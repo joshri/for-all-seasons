@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Playlist(props) {
@@ -7,7 +7,12 @@ function Playlist(props) {
 		name: 'Click Play on a Song!!',
 		cover: 'https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1',
 		artists: [{ name: 'Ying Yang Twins' }],
-	});
+    });
+    // let [playlist, setPlaylist] = useState(props.playlist);
+	let seasonInterval = Math.floor(props.playlist.length / 4);
+    let [season, setSeason] = useState(props.playlist);
+
+    useEffect(() => setSeason(props.playlist), [props])
 
 	//play function for links and player
 	function play(track) {
@@ -105,10 +110,10 @@ function Playlist(props) {
 				let next = '';
 				let previous = '';
 				//use uri that's currently playing to search for current index in playlist
-				for (let i = 0; i < props.playlist.length; i++) {
-					if (props.playlist[i].uri === playing.uri) {
-						next = props.playlist[i + 1];
-						previous = props.playlist[i - 1];
+				for (let i = 0; i < season.length; i++) {
+					if (season[i].uri === playing.uri) {
+						next = season[i + 1];
+						previous = season[i - 1];
 						break;
 					}
 				}
@@ -125,7 +130,7 @@ function Playlist(props) {
 		<div>
 			<div
 				style={{
-					height: '20vh',
+					height: '25vh',
 					width: '90vw',
 					margin: '10px',
 				}}>
@@ -152,6 +157,7 @@ function Playlist(props) {
 						</div>
 					</div>
 				</div>
+
 				<div
 					style={{
 						display: 'flex',
@@ -183,11 +189,43 @@ function Playlist(props) {
 						onChange={(event) => volumeCall(event)}
 					/>
 				</div>
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						marginTop: '10px',
+					}}>
+                        <button onClick={() => setSeason(props.playlist)}>all</button>
+					<button
+						onClick={() => setSeason(props.playlist.slice(0, seasonInterval))}>
+						summer
+					</button>
+					<button
+						onClick={() =>
+							setSeason(
+								props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
+							)
+						}>
+						spring
+					</button>
+					<button
+						onClick={() =>
+							setSeason(
+								props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
+							)
+						}>
+						fall
+					</button>
+					<button
+						onClick={() => setSeason(props.playlist.slice(seasonInterval * 3))}>
+						winter
+					</button>
+				</div>
 			</div>
 			<div style={{}}>
 				<ListGroup
 					style={{ background: 'linear-gradient(#FF7B2A, #F2FD89, #F4FFDB)' }}>
-					{props.playlist.map((track) => {
+					{season.map((track) => {
 						return (
 							<ListGroup.Item
 								variant='flush'

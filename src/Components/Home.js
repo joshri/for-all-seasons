@@ -100,7 +100,7 @@ function Home(props) {
 						features[i].energy +
 						features[i].valence) /
 					3;
-				seasonScore.push(score.toFixed(3));
+				seasonScore.push((score.toFixed(3)) * 1000);
 			}
 
 			//add sort ranking to track objects
@@ -119,15 +119,24 @@ function Home(props) {
 		}
 	}, [features]);
 
-	return (
-		<div style={{}}>
-			<Playlist
-				playlist={seasonSorted}
-				access={props.access}
-				playerId={props.playerId}
-			/>
-		</div>
-	);
+	if (!seasonSorted.length) {
+		return (
+			<div>
+				Loading
+			</div>
+		)
+	} else {
+
+		return (
+			<div>
+				<Playlist
+					playlist={seasonSorted}
+					access={props.access}
+					playerId={props.playerId}
+				/>
+			</div>
+		);
+		}
 }
 
 export default Home;
