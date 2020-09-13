@@ -9,7 +9,7 @@ function Header(props) {
 				height: '15vh',
 				width: '100vw',
 				marginBottom: '10px',
-				backgroundColor: '#F2FD89',
+				backgroundColor: '#DCDFDE',
 				borderBottom: '2px solid black',
 			}}>
 			<h1

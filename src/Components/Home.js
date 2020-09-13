@@ -133,6 +133,7 @@ function Home(props) {
 					playlist={seasonSorted}
 					access={props.access}
 					playerId={props.playerId}
+					
 				/>
 			</div>
 		);

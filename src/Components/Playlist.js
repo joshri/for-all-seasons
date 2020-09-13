@@ -7,12 +7,16 @@ function Playlist(props) {
 		name: 'Click Play on a Song!!',
 		cover: 'https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1',
 		artists: [{ name: 'Ying Yang Twins' }],
-    });
-    // let [playlist, setPlaylist] = useState(props.playlist);
+	});
+	// let [playlist, setPlaylist] = useState(props.playlist);
 	let seasonInterval = Math.floor(props.playlist.length / 4);
-    let [season, setSeason] = useState(props.playlist);
+	let [season, setSeason] = useState(props.playlist);
+	let [background, setBackground] = useState(
+		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
+    );
+    
 
-    useEffect(() => setSeason(props.playlist), [props])
+	useEffect(() => setSeason(props.playlist), [props]);
 
 	//play function for links and player
 	function play(track) {
@@ -130,9 +134,12 @@ function Playlist(props) {
 		<div>
 			<div
 				style={{
+					// background: '#DCDFDE',
 					height: '25vh',
 					width: '90vw',
 					margin: '10px',
+					border: '2px solid black',
+					position: 'fixed',
 				}}>
 				<div style={{ display: 'flex', marginLeft: '5px', width: '100vw' }}>
 					<img src={currentlyPlaying.cover} />
@@ -195,36 +202,53 @@ function Playlist(props) {
 						justifyContent: 'space-between',
 						marginTop: '10px',
 					}}>
-                        <button onClick={() => setSeason(props.playlist)}>all</button>
 					<button
-						onClick={() => setSeason(props.playlist.slice(0, seasonInterval))}>
+						onClick={() => {
+							setBackground(
+								'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
+							);
+							setSeason(props.playlist);
+						}}>
+						all
+					</button>
+
+					<button
+						onClick={() => {
+							setSeason(props.playlist.slice(0, seasonInterval));
+							setBackground('linear-gradient(#FF5629, #FFFFFF)');
+						}}>
 						summer
 					</button>
 					<button
-						onClick={() =>
+						onClick={() => {
+							setBackground('linear-gradient(#FF9129 , #FFFFFF)');
 							setSeason(
 								props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
-							)
-						}>
+							);
+						}}>
 						spring
 					</button>
 					<button
-						onClick={() =>
+						onClick={() => {
+							setBackground('linear-gradient(#F2FD89, #FFFFFF)');
+
 							setSeason(
 								props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
-							)
-						}>
+							);
+						}}>
 						fall
 					</button>
 					<button
-						onClick={() => setSeason(props.playlist.slice(seasonInterval * 3))}>
+						onClick={() => {
+							setBackground('linear-gradient(#6CFFDB, #FFFFFF)');
+							setSeason(props.playlist.slice(seasonInterval * 3));
+						}}>
 						winter
 					</button>
 				</div>
 			</div>
 			<div style={{}}>
-				<ListGroup
-					style={{ background: 'linear-gradient(#FF7B2A, #F2FD89, #F4FFDB)' }}>
+				<ListGroup style={{  background: background }}>
 					{season.map((track) => {
 						return (
 							<ListGroup.Item

@@ -26,7 +26,7 @@ function ArtistForm(props) {
 
 	return (
 		<div>
-            <About show={show} handleClose={handleClose} />
+			<About show={show} handleClose={handleClose} />
 			<div
 				style={{
 					margin: '10px 10px 10px 10px',
@@ -36,7 +36,11 @@ function ArtistForm(props) {
 				<form onSubmit={loadArtist}>
 					<label for='artist'>Artist:</label>
 					<input
-						style={{ height: '4vh', width: '40vw', backgroundColor: '#F2FD89' }}
+						style={{
+							height: '4vh',
+							width: '40vw',
+							backgroundColor: '#DCDFDE',
+						}}
 						id='artist'
 						type='text'
 						placeholder='Ying Yang Twins'
