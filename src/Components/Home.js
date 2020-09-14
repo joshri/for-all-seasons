@@ -127,7 +127,8 @@ function Home(props) {
 	if (!seasonSorted.length) {
 		return (
 			<div style={{ background: '#EDAEFF', width: '100vw', height: '100vh' }}>
-				<Spinner></Spinner>Loading
+				<Spinner>Loading</Spinner>
+				<p>Stuck? Your add blocker might be blocking the Spotify API!</p>
 			</div>
 		);
 	} else {
