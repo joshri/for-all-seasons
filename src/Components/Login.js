@@ -37,7 +37,7 @@ function Login(props) {
 				Powered by Spotify
 			</h3>
 			<a
-				href='http://localhost:8080/auth/spotify'
+				href='https://seasons-backend.herokuapp.com/auth/spotify'
 				style={{
 					animation: 'fadeIn 1.5s 3s ease-in forwards',
 					border: '1px solid black',
