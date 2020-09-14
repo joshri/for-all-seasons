@@ -24,8 +24,7 @@ function About(props) {
 				raging suns, while a score closer to 0 would indicate a winter so cold
 				that you wouldn't be able to even hear the song, because your body would
 				be frozen solid.<br></br>
-				<br></br>Use the player at the top to change the song, season, or save
-				the playlist to your account if you like it enough. Created using React,
+				<br></br>Use the player at the top to change the song, season. I didn't want to force a playlist on your account so there is no autoplay - use the button above the songs to save the playlist if you like it! Created using React,
 				a little React Bootstrap, Node, Express, and a lot of love by Joshua
 				Israel. Code available at{' '}
 				<a

@@ -14,13 +14,18 @@ function Playlist(props) {
 	let [background, setBackground] = useState(
 		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
 	);
-	let [seasonWord, setSeasonWord] = useState('All Seasons');
+    let [seasonWord, setSeasonWord] = useState('All Seasons');
+    // let [playing, setPlaying] = useState(false)
 	console.log(props.userId);
 
 	useEffect(() => setSeason(props.playlist), [props]);
 
 	//play function for links and player
 	function play(track) {
+        //this doesnt solve double playback bug
+        // if (playing) {
+        //     pause()
+        // }
 		setCurrentlyPlaying({
 			name: track.name,
 			cover: track.cover.url,
@@ -36,8 +41,10 @@ function Playlist(props) {
 				},
 				body: JSON.stringify({ uris: [track.uri] }),
 			}
-		);
+        );
+        // setPlaying(true)
 	}
+
 	//self-explanatory pause function for player
 	function pause() {
 		fetch(
@@ -134,14 +141,18 @@ function Playlist(props) {
 	async function createPlaylist() {
 		//setup
 		let name = `${props.artist.name} - ${seasonWord}`;
-		let id = ''
-        let uris = [];
-        // let data = `\"name\":\"${name}\",\"description\":\"A glorious playlist from Ying Yang Twins for all season\", \"private\":\"false\"`
-        let data = JSON.stringify({"name": `${name}`, "description": "A glorious playlist from Ying Yang Twins for all seasons", "public": "false"});
-        console.log(data)
-        console.log(props.access)
+		let id = '';
+		let uris = [];
+		// let data = `\"name\":\"${name}\",\"description\":\"A glorious playlist from Ying Yang Twins for all season\", \"private\":\"false\"`
+		let data = JSON.stringify({
+			name: `${name}`,
+			description: 'A glorious playlist from Ying Yang Twins for all seasons',
+			public: 'false',
+		});
+		console.log(data);
+		console.log(props.access);
 		season.forEach((song) => uris.push(song.uri));
-		
+
 		//create playlist endpoint
 		await fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
 			method: 'POST',
@@ -149,18 +160,18 @@ function Playlist(props) {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${props.access}`,
 			},
-			body: data
+			body: data,
 		})
 			.then((res) => res.json())
-            .then(json => {
-                async function setId() {
-                id = await json.id
-                }
-                setId();
-            })
+			.then((json) => {
+				async function setId() {
+					id = await json.id;
+				}
+				setId();
+			})
 			.catch((err) => console.log(err))
 			.then(() => {
-                console.log(id)
+				console.log(id);
 				//add playlist
 
 				fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
@@ -170,83 +181,128 @@ function Playlist(props) {
 						Authorization: `Bearer ${props.access}`,
 					},
 					body: JSON.stringify(uris),
-				}).then((res) => res.json())
-            })
-            .catch((err) => console.log(err));
-            
+				}).then((res) => res.json());
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (
-		<div style={{ backgroundColor: '#EDAEFF' }}>
+		<div
+			style={{
+				backgroundColor: '#EDAEFF',
+				alignItems: 'center',
+				justifyContent: 'center',
+				display: 'flex',
+				flexDirection: 'column',
+			}}>
 			<div
 				style={{
 					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: '25vh',
+
 					width: '90vw',
 					margin: '5vw',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					maxWidth: '600px',
 					border: '2px solid black',
 					padding: '10px',
 					borderRadius: '10px',
 					background: background,
 				}}>
+				<img
+					style={{
+						marginTop: '5px',
+						height: '128px',
+						width: '128px',
+						ObjectFit: 'cover',
+					}}
+					src={currentlyPlaying.cover}
+				/>
 				<div
 					style={{
 						display: 'flex',
-						justifyContent: 'space-between',
+						flexDirection: 'column',
 						width: '80vw',
-						marginTop: '10px',
+
+						alignItems: 'center',
 					}}>
-					<img
-						style={{ marginTop: '5px', maxHeight: '64px', maxWidth: '64px' }}
-						src={currentlyPlaying.cover}
-					/>
+					<h3 style={{ fontSize: '16px' }}>{currentlyPlaying.name}</h3>
 					<div
 						style={{
 							display: 'flex',
-							flexDirection: 'column',
-							width: '90vw',
-
-							alignItems: 'center',
+							alignItems: 'space-evenly',
+							flexWrap: 'wrap',
 						}}>
-						<h3 style={{ fontSize: '16px' }}>{currentlyPlaying.name}</h3>
-						<div
-							style={{
-								display: 'flex',
-								alignItems: 'space-evenly',
-								flexWrap: 'wrap',
-							}}>
-							{currentlyPlaying.artists.map((x) => (
-								<p style={{ fontSize: '14px' }}>{x.name}</p>
-							))}
-						</div>
+						{currentlyPlaying.artists.map((x) => (
+							<p style={{ fontSize: '14px' }}>{x.name}</p>
+						))}
 					</div>
-				</div>
 
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						marginTop: '10px',
-					}}>
-					<button id='previous' onClick={playNextOrPrevious}>
-						previous
-					</button>
-					<button onClick={pause}>pause</button>
-					<button onClick={playerPlay}>play</button>
-					<button id='next' onClick={playNextOrPrevious}>
-						next
-					</button>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						marginTop: '10px',
-					}}>
+					<div style={{ display: 'flex' }}>
+						<button>
+							<svg
+								id='previous'
+								onClick={playNextOrPrevious}
+								width='1.5em'
+								height='1.5em'
+								viewBox='0 0 16 16'
+								class='bi bi-arrow-90deg-left'
+								fill='currentColor'
+								xmlns='http://www.w3.org/2000/svg'>
+								<path
+									fill-rule='evenodd'
+									d='M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z'
+								/>
+							</svg>
+						</button>
+						<button>
+							<svg
+								onClick={pause}
+								width='1.5em'
+								height='1.5em'
+								viewBox='0 0 16 16'
+								class='bi bi-pause'
+								fill='currentColor'
+								xmlns='http://www.w3.org/2000/svg'>
+								<path
+									fill-rule='evenodd'
+									d='M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z'
+								/>
+							</svg>
+						</button>
+						<button>
+							<svg
+								onClick={playerPlay}
+								width='1.5em'
+								height='1.5em'
+								viewBox='0 0 16 16'
+								class='bi bi-play'
+								fill='currentColor'
+								xmlns='http://www.w3.org/2000/svg'>
+								<path
+									fill-rule='evenodd'
+									d='M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z'
+								/>
+							</svg>
+						</button>
+						<button>
+							<svg
+								id='next'
+								onClick={playNextOrPrevious}
+								width='1.5em'
+								height='1.5em'
+								viewBox='0 0 16 16'
+								class='bi bi-arrow-90deg-right'
+								fill='currentColor'
+								xmlns='http://www.w3.org/2000/svg'>
+								<path
+									fill-rule='evenodd'
+									d='M14.854 4.854a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 4H3.5A2.5 2.5 0 0 0 1 6.5v8a.5.5 0 0 0 1 0v-8A1.5 1.5 0 0 1 3.5 5h9.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4z'
+								/>
+							</svg>
+						</button>
+					</div>
+
 					<input
 						type='range'
 						min='0'
@@ -256,113 +312,145 @@ function Playlist(props) {
 						onChange={(event) => volumeCall(event)}
 					/>
 				</div>
+			</div>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'space-evenly',
+					textDecoration: 'underline',
+					borderBottom: '2px solid black',
+					borderTop: '2px solid black',
+					width: '100vw',
+					marginBottom: '2vh',
+					marginTop: '10px',
+				}}>
+				<button
+					onClick={() => {
+						setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
+						setSeason(props.playlist);
+						setSeasonWord('All Seasons');
+					}}>
+					all
+				</button>
+
+				<button
+					onClick={() => {
+						setSeason(props.playlist.slice(0, seasonInterval));
+						setBackground('linear-gradient(#FF5629, #FFFFFF)');
+						setSeasonWord('Summer');
+					}}>
+					summer
+				</button>
+				<button
+					onClick={() => {
+						setBackground('linear-gradient(#FF9129 , #FFFFFF)');
+						setSeason(
+							props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
+						);
+						setSeasonWord('Spring');
+					}}>
+					spring
+				</button>
+				<button
+					onClick={() => {
+						setBackground('linear-gradient(#F2FD89, #FFFFFF)');
+
+						setSeason(
+							props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
+						);
+						setSeasonWord('Fall');
+					}}>
+					fall
+				</button>
+				<button
+					onClick={() => {
+						setBackground('linear-gradient(#6CFFDB, #FFFFFF)');
+						setSeason(props.playlist.slice(seasonInterval * 3));
+						setSeasonWord('Winter');
+					}}>
+					winter
+				</button>
+			</div>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					width: '90vw',
+					maxWidth: '600px',
+					marginLeft: '5vw',
+					marginRight: '5vw',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}>
 				<div
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
-						marginTop: '0px',
+						alignItems: 'flex-end',
+						maxWidth: '600px',
 					}}>
-					<button
-						onClick={() => {
-							setBackground(
-								'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
-							);
-							setSeason(props.playlist);
-							setSeasonWord('All Seasons');
-						}}>
-						all
-					</button>
-
-					<button
-						onClick={() => {
-							setSeason(props.playlist.slice(0, seasonInterval));
-							setBackground('linear-gradient(#FF5629, #FFFFFF)');
-							setSeasonWord('Summer');
-						}}>
-						summer
-					</button>
-					<button
-						onClick={() => {
-							setBackground('linear-gradient(#FF9129 , #FFFFFF)');
-							setSeason(
-								props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
-							);
-							setSeasonWord('Spring');
-						}}>
-						spring
-					</button>
-					<button
-						onClick={() => {
-							setBackground('linear-gradient(#F2FD89, #FFFFFF)');
-
-							setSeason(
-								props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
-							);
-							setSeasonWord('Fall');
-						}}>
-						fall
-					</button>
-					<button
-						onClick={() => {
-							setBackground('linear-gradient(#6CFFDB, #FFFFFF)');
-							setSeason(props.playlist.slice(seasonInterval * 3));
-							setSeasonWord('Winter');
-						}}>
-						winter
-					</button>
-				</div>
-			</div>
-			<div
-				style={{
-					width: '90vw',
-					marginLeft: '5vw',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}>
-				<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
 					<h1
 						style={{
-							fontSize: '200%',
+							fontSize: '2.5rem',
 							fontFamily: "'Sacramento', cursive",
 
 							margin: '5px',
 						}}>
-						{seasonWord}
+						{seasonWord} -
 					</h1>
-					<button style={{ fontSize: '14px' }} onClick={createPlaylist}>
+					<button
+						style={{ fontSize: '14px', marginBottom: '12.5px' }}
+						onClick={createPlaylist}>
 						Save to Spotify
 					</button>
 				</div>
-				<ListGroup
-					style={{
-						background: background,
-						border: '2px solid black',
-						borderRadius: '10px',
-					}}>
-					{season.map((track) => {
-						return (
-							<ListGroup.Item
-								variant='flush'
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									height: '7vh',
-									background: 'transparent',
-								}}>
-								<h5 style={{ fontSize: '16px' }}>
-									{track.seasonScore} - {track.name}
-								</h5>
-								<button
+				<div style={{ maxWidth: '600px', width: '90vw' }}>
+					<ListGroup
+						style={{
+							background: background,
+							border: '2px solid black',
+							borderRadius: '10px',
+						}}>
+						{season.map((track) => {
+							return (
+								<ListGroup.Item
 									onClick={() => {
 										play(track);
+									}}
+									variant='flush'
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+										height: '7vh',
+										background: 'transparent',
 									}}>
-									Play
-								</button>
-							</ListGroup.Item>
-						);
-					})}
-				</ListGroup>
+									<h5 style={{ fontSize: '12px' }}>
+										{track.seasonScore} - {track.name}
+									</h5>
+									<button
+										style={{ borderBottom: 'none' }}
+										onClick={() => {
+											play(track);
+										}}>
+										<svg
+											width='1.5em'
+											height='1.5em'
+											viewBox='0 0 16 16'
+											class='bi bi-play'
+											fill='currentColor'
+											xmlns='http://www.w3.org/2000/svg'>
+											<path
+												fill-rule='evenodd'
+												d='M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z'
+											/>
+										</svg>
+									</button>
+								</ListGroup.Item>
+							);
+						})}
+					</ListGroup>
+				</div>
 			</div>
 		</div>
 	);
