@@ -125,7 +125,11 @@ function Home(props) {
 	}, [features]);
 
 	if (!seasonSorted.length) {
-		return <div style={{ background: '#CEB0D6', width: '100vw', height: '100vh' }}><Spinner></Spinner>Loading</div>;
+		return (
+			<div style={{ background: '#EDAEFF', width: '100vw', height: '100vh' }}>
+				<Spinner></Spinner>Loading
+			</div>
+		);
 	} else {
 
 		return (

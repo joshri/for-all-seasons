@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import About from './About'
+import About from './About';
 
 function ArtistForm(props) {
-    const [show, setShow] = useState(false);
-   const handleShow = () => setShow(true);
-   const handleClose = () => setShow(false);
+	const [show, setShow] = useState(false);
+	const handleShow = () => setShow(true);
+	const handleClose = () => setShow(false);
 	let formArtist = '';
 
 	const loadArtist = (event) => {
@@ -25,23 +25,25 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div>
+		<div style={{ marginBottom: '10px' }}>
 			<About show={show} handleClose={handleClose} />
 			<div
+				className='artistform'
 				style={{
 					margin: '10px 10px 10px 10px',
 					display: 'flex',
 					justifyContent: 'space-between',
 				}}>
-				<form onSubmit={loadArtist}>
+				<form  onSubmit={loadArtist}>
 					<label for='artist'>Artist:</label>
 					<input
 						style={{
 							height: '4vh',
 							width: '40vw',
-                            backgroundColor: '#CEB0D6',
-                            border: '2px solid black',
-                            borderRadius: '10px'
+							backgroundColor: '#CEB0D6',
+							border: '2px solid black',
+                            borderRadius: '10px',
+                            
 						}}
 						id='artist'
 						type='text'

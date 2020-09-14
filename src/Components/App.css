@@ -52,3 +52,9 @@ button:hover {
 		opacity: 1;
 	}
 }
+
+@media(device-width: 600px) {
+    .artistform {
+        margin-bottom: 5vh !important
+    }
+}

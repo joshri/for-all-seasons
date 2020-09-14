@@ -10,7 +10,7 @@ function Login(props) {
 				flexDirection: 'column',
 				alignItems: 'center',
 				animation: 'fadeIn 1.5s ease-in forwards',
-				backgroundColor: '#CEB0D6',
+				backgroundColor: '#EDAEFF',
 				backgroundSize: 'cover',
 				minHeight: '100vh',
 				minWidth: '100vw',

@@ -131,48 +131,36 @@ function Playlist(props) {
 	}
 	//TODO: separate into player component again
 
-	function createPlaylist() {
+	async function createPlaylist() {
 		//setup
 		let name = `${props.artist.name} - ${seasonWord}`;
-		let id = '';
-		let uris = [];
+		let id = ''
+        let uris = [];
+        // let data = `\"name\":\"${name}\",\"description\":\"A glorious playlist from Ying Yang Twins for all season\", \"private\":\"false\"`
+        let data = JSON.stringify({"name": `${name}`, "description": "A glorious playlist from Ying Yang Twins for all seasons", "public": "false"});
+        console.log(data)
+        console.log(props.access)
 		season.forEach((song) => uris.push(song.uri));
-		console.log(uris);
-
-		console.log(name);
+		
 		//create playlist endpoint
-		fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
+		await fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${props.access}`,
 			},
-			body: JSON.stringify({
-				name: name,
-				public: false,
-				description: 'A glorious playlist from Ying Yang Twins for all seasons',
-			}),
+			body: data
 		})
 			.then((res) => res.json())
+            .then(json => {
+                async function setId() {
+                id = await json.id
+                }
+                setId();
+            })
 			.catch((err) => console.log(err))
-			.then(
-				fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${props.access}`,
-					},
-				})
-					.then((res) => res.json())
-					.then((res) => {
-						res.items.forEach((playlist) => {
-							if (playlist.name === name) {
-								id = playlist.id;
-							}
-						});
-					})
-					.catch((err) => console.log(err))
-			)
-			.then(
+			.then(() => {
+                console.log(id)
 				//add playlist
 
 				fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
@@ -181,14 +169,15 @@ function Playlist(props) {
 						'Content-Type': 'application/json',
 						Authorization: `Bearer ${props.access}`,
 					},
-					body: uris,
+					body: JSON.stringify(uris),
 				}).then((res) => res.json())
-			)
-			.catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+            
 	}
 
 	return (
-		<div style={{ backgroundColor: '#CEB0D6' }}>
+		<div style={{ backgroundColor: '#EDAEFF' }}>
 			<div
 				style={{
 					display: 'flex',
@@ -201,6 +190,7 @@ function Playlist(props) {
 					border: '2px solid black',
 					padding: '10px',
 					borderRadius: '10px',
+					background: background,
 				}}>
 				<div
 					style={{
@@ -357,7 +347,7 @@ function Playlist(props) {
 									display: 'flex',
 									alignItems: 'center',
 									justifyContent: 'space-between',
-									height: '7.5vh',
+									height: '7vh',
 									background: 'transparent',
 								}}>
 								<h5 style={{ fontSize: '16px' }}>

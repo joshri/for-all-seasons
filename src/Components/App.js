@@ -92,7 +92,7 @@ function App() {
 				style={{
 					opacity: 0,
 					animation: 'fadeIn 1.5s ease-in forwards',
-					backgroundColor: '#CEB0D6',
+					backgroundColor: '#EDAEFF',
 				}}>
 				<Header artist={artist} access={access} setArtist={setArtist} />
 				<Home
