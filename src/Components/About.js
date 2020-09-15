@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 
 function About(props) {
 	
-
 	return (
 		<Modal
             scrollable={true}

@@ -25,7 +25,13 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div style={{ marginBottom: '10px', marginTop: '5vh', borderBottom: '2px solid black', borderTop: '2px solid black' }}>
+		<div
+			style={{
+				marginBottom: '10px',
+				marginTop: '5vh',
+				borderBottom: '2px solid black',
+				borderTop: '2px solid black',
+			}}>
 			<About show={show} handleClose={handleClose} />
 			<div
 				className='artistform'

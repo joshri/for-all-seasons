@@ -19,7 +19,7 @@ function Playlist(props) {
 	let artist = props.artist;
 
 	useEffect(() => {
-		if (artist !== props.artist) {
+		if (artist.name !== props.artist.name) {
 			setSeasonWord('All Seasons');
 			setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
 			artist = props.artist;

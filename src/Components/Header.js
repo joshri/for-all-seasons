@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function Header(props) {
 	return (
 		<div
@@ -11,7 +10,7 @@ function Header(props) {
 				marginBottom: '10px',
 				backgroundColor: '#EDAEFF',
 				display: 'flex',
-				flexWrap: 'nowrap'
+				flexWrap: 'nowrap',
 			}}>
 			<h1
 				style={{
@@ -19,11 +18,16 @@ function Header(props) {
 					fontFamily: "'Sacramento', cursive",
 					padding: '10px',
 					margin: 0,
-					
 				}}>
-				{props.artist.name || 'Ying Yang Twins'}{' '} 
+				{props.artist.name || 'Ying Yang Twins'}{' '}
 				<span
-					style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '18px', marginTop: 0, marginBottom: '10vh', display: 'inline-block' }}>
+					style={{
+						fontFamily: "'Montserrat', sans-serif",
+						fontSize: '18px',
+						marginTop: 0,
+						marginBottom: '10vh',
+						display: 'inline-block',
+					}}>
 					{' '}
 					- for all seasons
 				</span>
