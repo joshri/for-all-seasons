@@ -14,18 +14,25 @@ function Playlist(props) {
 	let [background, setBackground] = useState(
 		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
 	);
-    let [seasonWord, setSeasonWord] = useState('All Seasons');
-    // let [playing, setPlaying] = useState(false)
-	console.log(props.userId);
+	let [seasonWord, setSeasonWord] = useState('All Seasons');
+	// let [playing, setPlaying] = useState(false)
+	let artist = props.artist;
 
-	useEffect(() => setSeason(props.playlist), [props]);
+	useEffect(() => {
+		if (artist !== props.artist) {
+			setSeasonWord('All Seasons');
+			setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
+			artist = props.artist;
+		}
+		setSeason(props.playlist);
+	}, [props]);
 
 	//play function for links and player
 	function play(track) {
-        //this doesnt solve double playback bug
-        // if (playing) {
-        //     pause()
-        // }
+		//this doesnt solve double playback bug
+		// if (playing) {
+		//     pause()
+		// }
 		setCurrentlyPlaying({
 			name: track.name,
 			cover: track.cover.url,
@@ -41,8 +48,8 @@ function Playlist(props) {
 				},
 				body: JSON.stringify({ uris: [track.uri] }),
 			}
-        );
-        // setPlaying(true)
+		);
+		// setPlaying(true)
 	}
 
 	//self-explanatory pause function for player
