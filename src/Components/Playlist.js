@@ -396,7 +396,7 @@ function Playlist(props) {
 
 							margin: '5px',
 						}}>
-						{seasonWord} -
+						{seasonWord}
 					</h1>
 					<button
 						style={{ fontSize: '14px', marginBottom: '12.5px' }}
