@@ -64,9 +64,10 @@ function Playlist(props) {
 	}
 	//sets volume using state and onChange (this does a lot of API calls)
 	function volumeCall(event) {
+		let newVol = event.target.value;
 		setVolume(event.target.value);
 		fetch(
-			`https://api.spotify.com/v1/me/player/volume?volume_percent=${volume}&device_id=${props.playerId}`,
+			`https://api.spotify.com/v1/me/player/volume?volume_percent=${newVol}&device_id=${props.playerId}`,
 			{
 				method: 'PUT',
 				headers: {
@@ -310,7 +311,7 @@ function Playlist(props) {
 						max='100'
 						step='10'
 						value={volume}
-						onMouseUp={(event) => volumeCall(event)}
+						onInput={(event) => volumeCall(event)}
 					/>
 				</div>
 			</div>
