@@ -2,35 +2,34 @@ import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Playlist(props) {
+	let artist = props.artist;
 	let [volume, setVolume] = useState(50);
 	let [currentlyPlaying, setCurrentlyPlaying] = useState({
-		name: 'Click Play on a Song!!',
-		cover: 'https://i.scdn.co/image/f57a69bfb8aef58b2b2cee85cb82eddab8daeca1',
-		artists: [{ name: 'Ying Yang Twins' }],
+		name: props.playlist[0].name,
+		cover: props.playlist[0].cover.url,
+		artists: props.playlist[0].artists.map((x) => x),
 	});
-	// let [playlist, setPlaylist] = useState(props.playlist);
 	let seasonInterval = Math.floor(props.playlist.length / 4);
 	let [season, setSeason] = useState(props.playlist);
 	let [background, setBackground] = useState(
 		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
 	);
 	let [seasonWord, setSeasonWord] = useState('All Seasons');
-	// let [playing, setPlaying] = useState(false)
-	let artist = props.artist;
 
 	useEffect(() => {
+		pause();
 		setSeasonWord('All Seasons');
 		setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
 		artist = props.artist;
 		setSeason(props.playlist);
+		setCurrentlyPlaying({
+			name: props.playlist[0].name,
+			cover: props.playlist[0].cover.url,
+			artists: props.playlist[0].artists.map((x) => x),
+		});
 	}, [props]);
 
-	//play function for links and player
 	function play(track) {
-		//this doesnt solve double playback bug
-		// if (playing) {
-		//     pause()
-		// }
 		setCurrentlyPlaying({
 			name: track.name,
 			cover: track.cover.url,
