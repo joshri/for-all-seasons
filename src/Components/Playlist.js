@@ -19,11 +19,9 @@ function Playlist(props) {
 	let artist = props.artist;
 
 	useEffect(() => {
-		if (artist.name !== props.artist.name) {
-			setSeasonWord('All Seasons');
-			setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
-			artist = props.artist;
-		}
+		setSeasonWord('All Seasons');
+		setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
+		artist = props.artist;
 		setSeason(props.playlist);
 	}, [props]);
 
@@ -150,14 +148,11 @@ function Playlist(props) {
 		let name = `${props.artist.name} - ${seasonWord}`;
 		let id = '';
 		let uris = [];
-		// let data = `\"name\":\"${name}\",\"description\":\"A glorious playlist from Ying Yang Twins for all season\", \"private\":\"false\"`
 		let data = JSON.stringify({
 			name: `${name}`,
 			description: 'A glorious playlist from Ying Yang Twins for all seasons',
 			public: 'false',
 		});
-		console.log(data);
-		console.log(props.access);
 		season.forEach((song) => uris.push(song.uri));
 
 		//create playlist endpoint
@@ -205,7 +200,6 @@ function Playlist(props) {
 			<div
 				style={{
 					display: 'flex',
-
 					width: '90vw',
 					margin: '5vw',
 					justifyContent: 'space-between',
@@ -217,6 +211,7 @@ function Playlist(props) {
 					background: background,
 				}}>
 				<img
+					alt='album art'
 					style={{
 						marginTop: '5px',
 						height: '128px',
@@ -316,7 +311,7 @@ function Playlist(props) {
 						max='100'
 						step='10'
 						value={volume}
-						onChange={(event) => volumeCall(event)}
+						onMouseUp={(event) => volumeCall(event)}
 					/>
 				</div>
 			</div>
