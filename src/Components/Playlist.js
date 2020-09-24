@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Playlist(props) {
-	let artist = props.artist;
 	let [volume, setVolume] = useState(50);
 	let [currentlyPlaying, setCurrentlyPlaying] = useState({
 		name: props.playlist[0].name,
@@ -20,7 +19,7 @@ function Playlist(props) {
 		pause();
 		setSeasonWord('All Seasons');
 		setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
-		artist = props.artist;
+
 		setSeason(props.playlist);
 		setCurrentlyPlaying({
 			name: props.playlist[0].name,
