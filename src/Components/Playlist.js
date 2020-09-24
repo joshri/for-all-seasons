@@ -19,7 +19,6 @@ function Playlist(props) {
 		pause();
 		setSeasonWord('All Seasons');
 		setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
-
 		setSeason(props.playlist);
 		setCurrentlyPlaying({
 			name: props.playlist[0].name,
