@@ -17,7 +17,10 @@ function Playlist(props) {
 	let [seasonWord, setSeasonWord] = useState('All Seasons');
 	console.log(props.userId);
 
-	useEffect(() => setSeason(props.playlist), [props]);
+	useEffect(() => {
+		setSeason(props.playlist)
+		console.log(season);
+	}, [props]);
 
 	//play function for links and player
 	function play(track) {
@@ -200,6 +203,7 @@ function Playlist(props) {
 						marginTop: '10px',
 					}}>
 					<img
+						alt='album cover'
 						style={{ marginTop: '5px', maxHeight: '64px', maxWidth: '64px' }}
 						src={currentlyPlaying.cover}
 					/>
