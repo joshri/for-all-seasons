@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Alert from 'react-bootstrap/Alert';
 
 function Playlist(props) {
 	let [volume, setVolume] = useState(50);
-	let [pauseSwitch, setPauseSwitch] = useState('none')
-	let [playSwitch, setPlaySwitch] = useState('block')
+	let [pauseSwitch, setPauseSwitch] = useState('none');
+	let [playSwitch, setPlaySwitch] = useState('block');
+	let [alert, setAlert] = useState(false);
 	let seasonInterval = Math.floor(props.playlist.length / 4);
 	let [season, setSeason] = useState(props.playlist);
 	let [background, setBackground] = useState(
@@ -393,10 +395,14 @@ function Playlist(props) {
 					</h1>
 					<button
 						style={{ fontSize: '14px', marginBottom: '12.5px' }}
-						onClick={createPlaylist}>
+						onClick={() => {
+							createPlaylist();
+							setAlert(true);
+							}}>
 						Save to Spotify
 					</button>
 				</div>
+				{alert ? <Alert variant="success" onClose={() => setAlert(false)} dismissible ><h3>SAVED</h3></Alert> : <div></div>}
 				<div style={{ maxWidth: '600px', width: '90vw', marginBottom: '20px' }}>
 					<ListGroup
 						style={{
