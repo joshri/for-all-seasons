@@ -1,4 +1,5 @@
 //https://github.com/nbarsova/spotify-react-demo/blob/master/src/ScriptCache.js
+
 export class ScriptCache {
 	constructor(scripts, onSuccess) {
 		this.loaded = [];

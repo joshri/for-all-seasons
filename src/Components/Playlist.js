@@ -3,49 +3,31 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 function Playlist(props) {
 	let [volume, setVolume] = useState(50);
-	let [currentlyPlaying, setCurrentlyPlaying] = useState({
-		name: props.playlist[0].name,
-		cover: props.playlist[0].cover.url,
-		artists: props.playlist[0].artists.map((x) => x),
-	});
+	let [pauseSwitch, setPauseSwitch] = useState('none')
+	let [playSwitch, setPlaySwitch] = useState('block')
 	let seasonInterval = Math.floor(props.playlist.length / 4);
 	let [season, setSeason] = useState(props.playlist);
 	let [background, setBackground] = useState(
 		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
 	);
 	let [seasonWord, setSeasonWord] = useState('All Seasons');
+	
+	let effectChange = props.playlist
 
 	useEffect(() => {
 		pause();
 		setSeasonWord('All Seasons');
 		setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
-		setSeason(props.playlist);
-		console.log(season);
-		setCurrentlyPlaying({
-			name: props.playlist[0].name,
-			cover: props.playlist[0].cover.url,
-			artists: props.playlist[0].artists.map((x) => x),
-		});
-	}, [props]);
+		setSeason(effectChange);
+	}, [effectChange]);
 
-	function play(track, position = false) {
+
+	function play(track) {
 		
 		let newUris = []
 		for (let i = season.indexOf(track); i < season.length; i++) {
 			newUris.push(season[i].uri);
 		}
-		console.log(newUris)
-		let body = { uris: newUris };
-
-		if (position) {
-			body = { uris: newUris, position_ms: position }
-		}
-
-		setCurrentlyPlaying({
-			name: track.name,
-			cover: track.cover.url,
-			artists: track.artists.map((x) => x),
-		});
 		fetch(
 			`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`,
 			{
@@ -54,10 +36,9 @@ function Playlist(props) {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${props.access}`,
 				},
-				body: JSON.stringify(body),
+				body: JSON.stringify({ uris: newUris }),
 			}
 		);
-		// setPlaying(true)
 	}
 
 	//self-explanatory pause function for player
@@ -71,7 +52,7 @@ function Playlist(props) {
 					Authorization: `Bearer ${props.access}`,
 				},
 			}
-		);
+		)
 	}
 	//sets volume using state and onChange (this does a lot of API calls)
 	function volumeCall(event) {
@@ -97,14 +78,25 @@ function Playlist(props) {
 			},
 		})
 			.then((res) => res.json())
+			.catch(err => console.log(err))
 			.then((json) => {
 				//won't do anything if something is playing
-				if (json.is_playing === true) {
+				if ( !json || json.is_playing === true ) {
 					return;
-				} else {
-					play(json.item, json.progress_ms);
-				}
-			});
+				} 
+				fetch(
+					`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`,
+					{
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `Bearer ${props.access}`,
+						},
+					}
+				);
+			}
+		);
+		setPauseSwitch(0)
 	}
 
 	//skips one item backwards or forwards in playlist array
@@ -118,8 +110,11 @@ function Playlist(props) {
 			},
 		})
 			.then((res) => res.json())
+			.catch(err => console.log(err))
 			.then((json) => {
-				console.log(json);
+				if (!json) {
+					return
+				}
 				let playing = { uri: json.item.uri };
 				let next = '';
 				let previous = '';
@@ -136,7 +131,8 @@ function Playlist(props) {
 				} else if (event.target.id === 'previous') {
 					play(previous);
 				}
-			});
+			})
+			.catch(err => console.log(err));
 	}
 	//TODO: separate into player component again
 
@@ -170,9 +166,7 @@ function Playlist(props) {
 			})
 			.catch((err) => console.log(err))
 			.then(() => {
-				console.log(id);
 				//add playlist
-
 				fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
 					method: 'POST',
 					headers: {
@@ -210,26 +204,25 @@ function Playlist(props) {
 				<img
 					alt='album cover'
 					style={{ marginTop: '5px', marginLeft: '15px', maxHeight: '64px', maxWidth: '64px' }}
-					src={currentlyPlaying.cover}
+					src={props.currentlyPlaying.cover}
 				/>
 				<div
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
 						width: '80vw',
-
 						alignItems: 'center',
 					}}>
-					<h3 style={{ fontSize: '16px' }}>{currentlyPlaying.name}</h3>
+					<h3 style={{ fontSize: '16px' }}>{props.currentlyPlaying.name}</h3>
 					<div
 						style={{
 							display: 'flex',
 							alignItems: 'space-evenly',
 							flexWrap: 'wrap',
 						}}>
-						{currentlyPlaying.artists.map((x) => (
-							<p style={{ fontSize: '14px' }}>{x.name}</p>
-						))}
+						
+							<p style={{ fontSize: '14px' }}>{props.currentlyPlaying.artists.map((x) => ('- ' + x.name + ' - '))}</p>
+						
 					</div>
 
 					<div style={{ display: 'flex' }}>
@@ -249,9 +242,13 @@ function Playlist(props) {
 								/>
 							</svg>
 						</button>
-						<button>
+						<button style={{display: playSwitch}}>
 							<svg
-								onClick={pause}
+								onClick={() => {
+									pause();
+									setPauseSwitch('block')
+									setPlaySwitch('none')
+								}}
 								width='1.5em'
 								height='1.5em'
 								viewBox='0 0 16 16'
@@ -264,9 +261,13 @@ function Playlist(props) {
 								/>
 							</svg>
 						</button>
-						<button>
+						<button style={{display: pauseSwitch}}>
 							<svg
-								onClick={playerPlay}
+								onClick={() => {
+									playerPlay()
+									setPlaySwitch('block')
+									setPauseSwitch('none')
+								}}
 								width='1.5em'
 								height='1.5em'
 								viewBox='0 0 16 16'
@@ -348,7 +349,6 @@ function Playlist(props) {
 				<button
 					onClick={() => {
 						setBackground('linear-gradient(#F2FD89, #FFFFFF)');
-
 						setSeason(
 							props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
 						);
@@ -387,7 +387,6 @@ function Playlist(props) {
 						style={{
 							fontSize: '2.5rem',
 							fontFamily: "'Sacramento', cursive",
-
 							margin: '5px',
 						}}>
 						{seasonWord}
@@ -398,7 +397,7 @@ function Playlist(props) {
 						Save to Spotify
 					</button>
 				</div>
-				<div style={{ maxWidth: '600px', width: '90vw' }}>
+				<div style={{ maxWidth: '600px', width: '90vw', marginBottom: '20px' }}>
 					<ListGroup
 						style={{
 							background: background,

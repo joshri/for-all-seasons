@@ -47,6 +47,9 @@ function Home(props) {
 							break;
 						}
 					}
+					if (popSort[i].artists[0].name !== artist.name) {
+						isDupe = true;
+					}
 					if (isDupe === false) {
 						//relevent values out of track object
 						forTracks.push({
@@ -127,8 +130,10 @@ function Home(props) {
 					background: '#EDAEFF',
 					display: 'flex',
 					flexDirection: 'column',
-					width: '100%',
-					height: '100%',
+					justifyContent: 'center',
+					textAlign: 'center',
+					width: '100vw',
+					height: '100vh',
 					marginTop: '10vh',
 				}}>
 				<Spinner>Loading</Spinner>
@@ -139,6 +144,8 @@ function Home(props) {
 		return (
 			<div>
 				<Playlist
+					currentlyPlaying={props.currentlyPlaying}
+					setCurrentlyPlaying={props.setCurrentlyPlaying}
 					playlist={seasonSorted}
 					access={props.access}
 					playerId={props.playerId}
