@@ -25,20 +25,17 @@ label {
 }
 
 button {
-	padding: 5px;
+	
 	margin: 5px;
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid black;
 	transition: color 0.5s;
-	transition: border-color 0.5s;
+	
 }
 
-button:hover {
-	border-color: orange;
-	color: orange;
 
-	padding-top: 0;
+button:hover {
+	color: orange;
 }
 
 .modal {

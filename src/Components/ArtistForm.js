@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import About from './About';
 
 function ArtistForm(props) {
@@ -25,25 +25,31 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div style={{ marginBottom: '10px' }}>
+		<div
+			style={{
+				marginBottom: '10px',
+				marginTop: '5vh',
+				borderBottom: '2px solid black',
+				borderTop: '2px solid black',
+			}}>
 			<About show={show} handleClose={handleClose} />
 			<div
 				className='artistform'
 				style={{
 					margin: '10px 10px 10px 10px',
 					display: 'flex',
-					justifyContent: 'space-between',
+					justifyContent: '',
 				}}>
-				<form  onSubmit={loadArtist}>
+				<form onSubmit={loadArtist}>
 					<label for='artist'>Artist:</label>
 					<input
 						style={{
-							height: '4vh',
-							width: '40vw',
+							height: '3.5vh',
+							width: '30vw',
 							backgroundColor: '#CEB0D6',
 							border: '2px solid black',
-                            borderRadius: '10px',
-                            
+							borderRadius: '10px',
+							marginBottom: '10px',
 						}}
 						id='artist'
 						type='text'
@@ -53,17 +59,18 @@ function ArtistForm(props) {
 					<button
 						style={{
 							height: '4vh',
-							width: '20vw',
-							marginLeft: '5px',
+							width: '10vw',
+							marginLeft: '0px',
 							alignItems: 'center',
 							backgroundColor: 'transparent',
 							fontSize: '14px',
-							border: 'none',
+							textDecoration: 'underline',
 						}}
 						type='submit'>
-						submit
+						search
 					</button>
 				</form>
+
 				<button
 					onClick={handleShow}
 					style={{
@@ -71,6 +78,8 @@ function ArtistForm(props) {
 						alignItems: 'center',
 						backgroundColor: 'transparent',
 						fontSize: '14px',
+						marginLeft: '10vw',
+						textDecoration: 'underline',
 					}}>
 					about
 				</button>

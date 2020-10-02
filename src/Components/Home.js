@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from './Playlist';
-import Spinner from 'react-bootstrap/Spinner'
+import Spinner from 'react-bootstrap/Spinner';
 
 function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let [seasonSorted, setSeasonSorted] = useState([]);
-	let [season, setSeason] = useState(props.playlist);
-	let [background, setBackground] = useState(
-		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
-	);
 
 	//break down state for useEffect dependencies
 	let access = props.access;
@@ -105,7 +101,7 @@ function Home(props) {
 						features[i].energy +
 						features[i].valence) /
 					3;
-				seasonScore.push((score.toFixed(3)) * 1000);
+				seasonScore.push(score.toFixed(3) * 1000);
 			}
 
 			//add sort ranking to track objects
@@ -126,12 +122,20 @@ function Home(props) {
 
 	if (!seasonSorted.length) {
 		return (
-			<div style={{ background: '#EDAEFF', width: '100vw', height: '100vh' }}>
-				<Spinner></Spinner>Loading
+			<div
+				style={{
+					background: '#EDAEFF',
+					display: 'flex',
+					flexDirection: 'column',
+					width: '100%',
+					height: '100%',
+					marginTop: '10vh',
+				}}>
+				<Spinner>Loading</Spinner>
+				<p>Stuck? Your add blocker might be blocking the Spotify API!</p>
 			</div>
 		);
 	} else {
-
 		return (
 			<div>
 				<Playlist
@@ -143,7 +147,7 @@ function Home(props) {
 				/>
 			</div>
 		);
-		}
+	}
 }
 
 export default Home;

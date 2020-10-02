@@ -1,5 +1,4 @@
 import React from 'react';
-import ArtistForm from './ArtistForm';
 
 function Header(props) {
 	return (
@@ -10,24 +9,29 @@ function Header(props) {
 				width: '100vw',
 				marginBottom: '10px',
 				backgroundColor: '#EDAEFF',
-				borderBottom: '2px solid black',
+				display: 'flex',
+				flexWrap: 'nowrap',
 			}}>
 			<h1
 				style={{
-					fontSize: '200%',
+					fontSize: '11vw',
 					fontFamily: "'Sacramento', cursive",
 					padding: '10px',
 					margin: 0,
 				}}>
 				{props.artist.name || 'Ying Yang Twins'}{' '}
 				<span
-					style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '16px' }}>
+					style={{
+						fontFamily: "'Montserrat', sans-serif",
+						fontSize: '18px',
+						marginTop: 0,
+						marginBottom: '10vh',
+						display: 'inline-block',
+					}}>
 					{' '}
 					- for all seasons
 				</span>
 			</h1>
-
-			<ArtistForm access={props.access} setArtist={props.setArtist} />
 		</div>
 	);
 }

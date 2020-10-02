@@ -3,6 +3,7 @@ import './App.css';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
+import ArtistForm from './ArtistForm';
 
 import { ScriptCache } from './ScriptCache';
 
@@ -95,6 +96,7 @@ function App() {
 					backgroundColor: '#EDAEFF',
 				}}>
 				<Header artist={artist} access={access} setArtist={setArtist} />
+				<ArtistForm access={access} setArtist={setArtist} />
 				<Home
 					playerId={playerId}
 					setArtist={setArtist}
