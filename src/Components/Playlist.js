@@ -30,6 +30,7 @@ function Playlist(props) {
 		for (let i = season.indexOf(track); i < season.length; i++) {
 			newUris.push(season[i].uri);
 		}
+		
 		fetch(
 			`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`,
 			{
@@ -205,7 +206,12 @@ function Playlist(props) {
 				}}>
 				<img
 					alt='album cover'
-					style={{ marginTop: '5px', marginLeft: '15px', maxHeight: '64px', maxWidth: '64px' }}
+					style={{
+						marginTop: '5px',
+						marginLeft: '15px',
+						maxHeight: '64px',
+						maxWidth: '64px',
+					}}
 					src={props.currentlyPlaying.cover}
 				/>
 				<div
@@ -215,16 +221,22 @@ function Playlist(props) {
 						width: '80vw',
 						alignItems: 'center',
 					}}>
-					<h3 style={{ fontSize: '16px' }}>{props.currentlyPlaying.name}</h3>
+					<h3
+						style={{
+							fontSize: '16px',
+							fontFamily: "'Montserrat', sans-serif",
+						}}>
+						{props.currentlyPlaying.name}
+					</h3>
 					<div
 						style={{
 							display: 'flex',
 							alignItems: 'space-evenly',
 							flexWrap: 'wrap',
 						}}>
-						
-							<p style={{ fontSize: '14px' }}>{props.currentlyPlaying.artists.map((x) => ('- ' + x.name + ' - '))}</p>
-						
+						<p style={{ fontSize: '14px', fontFamily: "'Montserrat', sans-serif" }}>
+							{props.currentlyPlaying.artists.map((x) => '- ' + x.name + ' - ')}
+						</p>
 					</div>
 
 					<div style={{ display: 'flex' }}>
@@ -244,12 +256,12 @@ function Playlist(props) {
 								/>
 							</svg>
 						</button>
-						<button style={{display: playSwitch}}>
+						<button style={{ display: playSwitch }}>
 							<svg
 								onClick={() => {
 									pause();
-									setPauseSwitch('block')
-									setPlaySwitch('none')
+									setPauseSwitch('block');
+									setPlaySwitch('none');
 								}}
 								width='1.5em'
 								height='1.5em'
@@ -263,12 +275,12 @@ function Playlist(props) {
 								/>
 							</svg>
 						</button>
-						<button style={{display: pauseSwitch}}>
+						<button style={{ display: pauseSwitch }}>
 							<svg
 								onClick={() => {
-									playerPlay()
-									setPlaySwitch('block')
-									setPauseSwitch('none')
+									playerPlay();
+									setPlaySwitch('block');
+									setPauseSwitch('none');
 								}}
 								width='1.5em'
 								height='1.5em'
@@ -340,7 +352,7 @@ function Playlist(props) {
 				</button>
 				<button
 					onClick={() => {
-						setBackground('linear-gradient(#FF9129 , #FFFFFF)');
+						setBackground('linear-gradient(#F2FD89, #FFFFFF)');
 						setSeason(
 							props.playlist.slice(seasonInterval, seasonInterval * 2 + 1)
 						);
@@ -350,7 +362,7 @@ function Playlist(props) {
 				</button>
 				<button
 					onClick={() => {
-						setBackground('linear-gradient(#F2FD89, #FFFFFF)');
+						setBackground('linear-gradient(#FF9129 , #FFFFFF)');
 						setSeason(
 							props.playlist.slice(seasonInterval * 2, seasonInterval * 3 + 1)
 						);
@@ -398,11 +410,18 @@ function Playlist(props) {
 						onClick={() => {
 							createPlaylist();
 							setAlert(true);
-							}}>
+						}}>
 						Save to Spotify
 					</button>
 				</div>
-				{alert ? <Alert variant="success" onClose={() => setAlert(false)} dismissible ><h3>SAVED</h3></Alert> : <div></div>}
+
+				{alert ? (
+					<Alert variant='success' onClose={() => setAlert(false)} dismissible>
+						<h3>SAVED</h3>
+					</Alert>
+				) : (
+					<div></div>
+				)}
 				<div style={{ maxWidth: '600px', width: '90vw', marginBottom: '20px' }}>
 					<ListGroup
 						style={{
@@ -423,8 +442,9 @@ function Playlist(props) {
 										justifyContent: 'space-between',
 										height: '7vh',
 										background: 'transparent',
+										fontFamily: "'Montserrat', sans-serif",
 									}}>
-									<h5 style={{ fontSize: '12px' }}>
+									<h5 style={{ fontSize: '14px' }}>
 										{track.seasonScore} - {track.name}
 									</h5>
 									<button

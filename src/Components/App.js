@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Home from './Home';
 import Header from './Header';
@@ -110,6 +111,7 @@ function App() {
 					opacity: 0,
 					animation: 'fadeIn 1.5s ease-in forwards',
 					backgroundColor: '#EDAEFF',
+					
 				}}>
 				<Header artist={artist} access={access} setArtist={setArtist} />
 				<ArtistForm access={access} setArtist={setArtist} />

@@ -4,7 +4,6 @@ function Header(props) {
 	return (
 		<div
 			style={{
-				// position: 'fixed',
 				height: '15vh',
 				width: '100vw',
 				marginBottom: '10px',

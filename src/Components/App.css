@@ -22,15 +22,15 @@ a {
 label {
 	font-size: 14px;
 	margin-right: 5px;
+	font-family: 'Montserrat', sans-serif;
 }
 
-button {
-	
+button {	
 	margin: 5px;
 	background: transparent;
 	border: none;
 	transition: color 0.5s;
-	
+	font-family: 'Montserrat', sans-serif;
 }
 
 
