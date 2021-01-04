@@ -9,7 +9,6 @@ function ArtistForm(props) {
 
 	const loadArtist = (event) => {
 		event.preventDefault();
-		//pause playback in case song is playing
 		fetch(`https://api.spotify.com/v1/search?q=${formArtist}&type=artist`, {
 			headers: {
 				'Content-Type': 'application/json',
@@ -18,7 +17,6 @@ function ArtistForm(props) {
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				console.log(json);
 				props.setArtist(json.artists.items[0]);
 			})
 			.catch((err) => console.log(err));
