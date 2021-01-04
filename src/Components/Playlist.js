@@ -24,8 +24,7 @@ function Playlist(props) {
 	}, [effectChange]);
 
 
-	function play(track) {
-		
+	function play(track) {		
 		let newUris = []
 		for (let i = season.indexOf(track); i < season.length; i++) {
 			newUris.push(season[i].uri);
