@@ -4,15 +4,12 @@ function Login(props) {
 	return (
 		<div
 			style={{
-				top: 0,
-				left: 0,
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
 				alignItems: 'center',
 				animation: 'fadeIn 1.5s ease-in forwards',
 				backgroundColor: '#EDAEFF',
-				backgroundSize: 'cover',
 				minHeight: '100vh',
 				minWidth: '100vw',
 			}}>

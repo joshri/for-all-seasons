@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import Playlist from './Playlist';
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -6,6 +7,9 @@ function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let [seasonSorted, setSeasonSorted] = useState([]);
+	let [background, setBackground] = useState(
+		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
+	);
 
 	//break down state for useEffect dependencies
 	let access = props.access;
@@ -125,17 +129,7 @@ function Home(props) {
 
 	if (!seasonSorted.length) {
 		return (
-			<div
-				style={{
-					background: '#EDAEFF',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					textAlign: 'center',
-					width: '100vw',
-					height: '100vh',
-					marginTop: '10vh',
-				}}>
+			<div>
 				<Spinner>Loading</Spinner>
 				<p>Stuck? Your add blocker might be blocking the Spotify API!</p>
 			</div>
@@ -143,14 +137,18 @@ function Home(props) {
 	} else {
 		return (
 			<div>
+			
 				<Playlist
+					access={props.access}
 					currentlyPlaying={props.currentlyPlaying}
 					setCurrentlyPlaying={props.setCurrentlyPlaying}
+					playerId={props.playerId}
 					playlist={seasonSorted}
 					access={props.access}
-					playerId={props.playerId}
 					userId={props.id}
 					artist={artist}
+					background={background}
+					setBackground={setBackground}
 				/>
 			</div>
 		);

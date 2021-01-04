@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import About from './About';
 
 function ArtistForm(props) {
@@ -23,64 +23,20 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div
-			style={{
-				marginBottom: '10px',
-				marginTop: '5vh',
-				borderBottom: '2px solid black',
-				borderTop: '2px solid black',
-			}}>
+		<div>
 			<About show={show} handleClose={handleClose} />
-			<div
-				className='artistform'
-				style={{
-					margin: '10px 10px 10px 10px',
-					display: 'flex',
-					justifyContent: '',
-				}}>
+			<div className='artistform'>
 				<form onSubmit={loadArtist}>
-					<label for='artist'>Artist:</label>
+					<label htmlFor='artist'>Artist:</label>
 					<input
-						style={{
-							height: '3.5vh',
-							width: '30vw',
-							backgroundColor: '#CEB0D6',
-							border: '2px solid black',
-							borderRadius: '10px',
-							marginBottom: '10px',
-						}}
 						id='artist'
 						type='text'
-						placeholder=' Ying Yang Twins'
+						placeholder='Ying Yang Twins'
 						onChange={(event) => (formArtist = event.target.value)}
 					/>
-					<button
-						style={{
-							height: '4vh',
-							width: '10vw',
-							marginLeft: '0px',
-							alignItems: 'center',
-							backgroundColor: 'transparent',
-							fontSize: '14px',
-							textDecoration: 'underline',
-						}}
-						type='submit'>
-						search
-					</button>
+					<button type='submit'>search</button>
 				</form>
-
-				<button
-					onClick={handleShow}
-					style={{
-						height: '4vh',
-						alignItems: 'center',
-						backgroundColor: 'transparent',
-						fontSize: '14px',
-						marginLeft: '10vw',
-						textDecoration: 'underline',
-					}}>
-					about
-				</button>
+				<button onClick={handleShow}>about</button>
 			</div>
 		</div>
 	);

@@ -8,22 +8,20 @@ import ArtistForm from './ArtistForm';
 
 import { ScriptCache } from './ScriptCache';
 
-//handle login - get token - initialize player
-
 function App() {
 	let [playerId, setPlayerId] = useState('');
 	let [access, setAccess] = useState('');
-	let [ready, setReady] = useState(false)
+	let [ready, setReady] = useState(false);
 	let [refresh, setRefresh] = useState('');
 	let [id, setId] = useState('');
-	let [artist, setArtist] = useState({name: 'Ying Yang Twins'});
+	let [artist, setArtist] = useState({ name: 'Ying Yang Twins' });
 	let [tracks, setTracks] = useState('');
 	let [currentlyPlaying, setCurrentlyPlaying] = useState({
-		name: "Naggin'",
-		cover: "https://i.scdn.co/image/ab67616d000048511f52a7e9b573959c8e430974",
-		artists: [{name: "Ying Yang Twins"}],
+		name: 'Select a Track!',
+		cover: 'https://i.scdn.co/image/ab67616d000048511f52a7e9b573959c8e430974',
+		artists: [{ name: artist.name }],
 	});
-  
+
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access && !ready) {
@@ -38,7 +36,7 @@ function App() {
 
 				// Playback status updates
 				player.addListener('player_state_changed', (state) => {
-					let track = state.track_window.current_track
+					let track = state.track_window.current_track;
 					if (track.name === currentlyPlaying.name) {
 						return;
 					} else {
@@ -46,9 +44,9 @@ function App() {
 							name: track.name,
 							cover: track.album.images[1].url,
 							artists: track.artists,
+							uri: track.uri,
 						});
 					}
-
 				});
 
 				// Ready
@@ -76,10 +74,10 @@ function App() {
 	useEffect(() => {
 		//grab access token and user id after login
 		const queryString = require('query-string');
-    	let parsed = queryString.parse(window.location.search);
+		let parsed = queryString.parse(window.location.search);
 		setAccess(parsed.accesstoken);
 		setRefresh(parsed.refreshtoken);
-    	setId(parsed.id);
+		setId(parsed.id);
 	}, []);
 
 	//if there is no access token render login
@@ -87,13 +85,7 @@ function App() {
 		return <Login />;
 	} else {
 		return (
-			<div
-				style={{
-					opacity: 0,
-					animation: 'fadeIn 1.5s ease-in forwards',
-					backgroundColor: '#EDAEFF',
-					
-				}}>
+			<div>
 				<Header artist={artist} access={access} setArtist={setArtist} />
 				<ArtistForm access={access} setArtist={setArtist} />
 				<Home
