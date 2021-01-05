@@ -1,0 +1,100 @@
+@import './config.scss';
+
+div {
+	@extend %flex;
+	width: 100%;
+	background: $background;
+	opacity: 0;
+    animation: fadeIn 1.5s ease-in forwards;
+    //login
+	&.animate {
+		justify-content: center;
+		min-height: 100vh;
+		min-width: 100vw;
+    }
+    &.post-title {
+        margin-top: 10vh;
+    }
+    //header
+    &.header-container {
+        align-items: start;
+        height: 20vh;
+        span {
+            font-size: 12px;
+        }
+    }
+}
+
+h1 {
+    font-family: $title;
+    //login
+	&.title {
+		font-size: 13vw;
+	}
+	span {
+		font-family: $body;
+    }
+    //header
+    &.header {
+        font-size: 10vw;
+        z-index: -1;
+        overflow: visible;
+        text-align: left;
+    }
+}
+
+p {
+    //login
+	&.animate-2 {
+		font-size: 5vw;
+		opacity: 0;
+		animation: fadeIn 1.5s 1.5s ease-in forwards;
+		margin: 0 0 0 50vw;
+    }
+    &.animate-3 {
+        font-size: 1.5vw;
+        opacity: 0;
+		animation: fadeIn 1.5s 3s ease-in forwards;
+    }
+}
+
+a {
+	text-decoration: none;
+    color: black;
+    transition: color .5s, border .5s;
+    //login
+    &.animate-a {
+        border: 1.5px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        animation: fadeIn 1.5s 3s ease-in forwards;
+    }
+}
+
+a:hover {
+    color: $gold-highlight;
+    border-color: $gold-highlight;
+    text-decoration: none;
+}
+
+button {
+	background: transparent;
+	border: none;
+	transition: color 0.5s;
+	font-family: $body;
+}
+
+button:hover {
+	color: $gold-highlight;
+}
+
+.modal {
+	background: '#E5CCEC';
+}
+
+form {
+    @extend %flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}

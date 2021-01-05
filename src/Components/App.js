@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './App.scss';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
-import ArtistForm from './ArtistForm';
 
 import { ScriptCache } from './ScriptCache';
 
 function App() {
-	let [playerId, setPlayerId] = useState('');
+	//tokens
 	let [access, setAccess] = useState('');
-	let [ready, setReady] = useState(false);
 	let [refresh, setRefresh] = useState('');
+	//web player sdk
+	let [playerId, setPlayerId] = useState('');
+	let [ready, setReady] = useState(false);
+	//user id
 	let [id, setId] = useState('');
+	//spotify api data
 	let [artist, setArtist] = useState({ name: 'Ying Yang Twins' });
 	let [tracks, setTracks] = useState('');
 	let [currentlyPlaying, setCurrentlyPlaying] = useState({
 		name: 'Select a Track!',
 		cover: 'https://i.scdn.co/image/ab67616d000048511f52a7e9b573959c8e430974',
-		artists: [{ name: artist.name }],
+		artists: [{ name: '' }],
 	});
 
+	//web player set up - see script cache class below
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access && !ready) {
@@ -72,7 +75,7 @@ function App() {
 	]);
 
 	useEffect(() => {
-		//grab access token and user id after login
+		//grab tokens and user id from url using query string module after login
 		const queryString = require('query-string');
 		let parsed = queryString.parse(window.location.search);
 		setAccess(parsed.accesstoken);
@@ -87,7 +90,6 @@ function App() {
 		return (
 			<div>
 				<Header artist={artist} access={access} setArtist={setArtist} />
-				<ArtistForm access={access} setArtist={setArtist} />
 				<Home
 					currentlyPlaying={currentlyPlaying}
 					setCurrentlyPlaying={setCurrentlyPlaying}

@@ -23,9 +23,9 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div>
+		<div className='artist-form'>
 			<About show={show} handleClose={handleClose} />
-			<div className='artistform'>
+			<div>
 				<form onSubmit={loadArtist}>
 					<label htmlFor='artist'>Artist:</label>
 					<input

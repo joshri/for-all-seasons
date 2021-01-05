@@ -12,7 +12,6 @@ function Playlist(props) {
 		for (let i = season.indexOf(track); i < season.length; i++) {
 			newUris.push(season[i].uri);
 		}
-
 		fetch(
 			`https://api.spotify.com/v1/me/player/play?device_id=${props.playerId}`,
 			{

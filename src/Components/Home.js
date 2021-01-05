@@ -4,6 +4,8 @@ import Playlist from './Playlist';
 import Spinner from 'react-bootstrap/Spinner';
 
 function Home(props) {
+	//this component creates the sorted playlist from the artist name passed down through App + ArtistForm
+
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let [seasonSorted, setSeasonSorted] = useState([]);
@@ -16,7 +18,7 @@ function Home(props) {
 	let artist = props.artist;
 	let tracks = { tracks: props.tracks, setTracks: props.setTracks };
 
-	//get tracks
+	//TODO: change three useEffects into asynchronous functions?
 	useEffect(() => {
 		//get 50 tracks from artist
 		fetch(
@@ -39,18 +41,19 @@ function Home(props) {
 				//search for remixes/duplicates
 				let forTracks = [];
 				let isDupe = false;
-
 				for (let i = 0; i < popSort.length; i++) {
 					isDupe = false;
-					//left paren is indicator of a remixed version
+					//separate title at left paren to test equality - we don't want to filter out songs with the same featured artist but different title, or songs with the same title and different features.
 					let popTest = popSort[i].name.split('(')[0];
 					for (let j = 0; j < forTracks.length; j++) {
 						let trackTest = forTracks[j].name.split('(')[0];
+						//test if title without features is the same
 						if (popTest.includes(trackTest) || trackTest.includes(popTest)) {
 							isDupe = true;
 							break;
 						}
 					}
+					//filters out artists with similar names that sneak onto the list
 					if (popSort[i].artists[0].name !== artist.name) {
 						isDupe = true;
 					}
@@ -69,29 +72,30 @@ function Home(props) {
 				let forIds = [];
 				forTracks.forEach((track) => forIds.push(track.id));
 				setIds(forIds);
-
 				tracks.setTracks(forTracks);
 			});
 	}, [access, artist]);
 
 	//once tracks are set, use ids to set audio features
 	useEffect(() => {
-		fetch(`https://api.spotify.com/v1/audio-features/?ids=${ids.join(',')}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${access}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				setFeatures(res['audio_features']);
-			});
+		if (ids) {
+			fetch(`https://api.spotify.com/v1/audio-features/?ids=${ids.join(',')}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${access}`,
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					setFeatures(res['audio_features']);
+				});
+		}
 	}, [access, ids]);
 
 	useEffect(() => {
-		let seasonScore = [];
-
+		//once features are set, calculate season score and sort
 		if (features[0] != null) {
+			let seasonScore = [];
 			for (let i = 0; i < features.length; i++) {
 				//some songs might not have audio features
 				if (
@@ -130,14 +134,14 @@ function Home(props) {
 	if (!seasonSorted.length) {
 		return (
 			<div>
-				<Spinner>Loading</Spinner>
+				<Spinner animation='border' role='status'/>
+				<h4>Loading...</h4>
 				<p>Stuck? Your add blocker might be blocking the Spotify API!</p>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-			
 				<Playlist
 					access={props.access}
 					currentlyPlaying={props.currentlyPlaying}
