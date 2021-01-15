@@ -4,9 +4,10 @@ import ArtistForm from './ArtistForm';
 function Header(props) {
 	return (
 		<div className='header-container'>
-			<h1 className='header'>
-				{props.artist.name || 'Ying Yang Twins'} <span> - for all seasons</span>
-			</h1>
+			<div className='header-title'>
+				<h1 className='header'>{props.artist.name || 'Ying Yang Twins'}</h1>
+				<p className='header-seasons'> - for all seasons</p>
+			</div>
 			<ArtistForm access={props.access} setArtist={props.setArtist} />
 		</div>
 	);

@@ -23,9 +23,9 @@ function ArtistForm(props) {
 	};
 
 	return (
-		<div className='artist-form'>
+		<div className='artist-form-container'>
 			<About show={show} handleClose={handleClose} />
-			<div>
+			<div className='artist-form'>
 				<form onSubmit={loadArtist}>
 					<label htmlFor='artist'>Artist:</label>
 					<input
@@ -36,7 +36,9 @@ function ArtistForm(props) {
 					/>
 					<button type='submit'>search</button>
 				</form>
-				<button onClick={handleShow}>about</button>
+				<div style={{marginLeft: '10vw'}}>
+					<button onClick={handleShow}>about</button>
+				</div>
 			</div>
 		</div>
 	);

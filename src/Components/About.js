@@ -5,14 +5,16 @@ function About(props) {
 	
 	return (
 		<Modal
+			dialogClassName='modal'
             scrollable={true}
 			show={props.show}
 			onHide={props.handleClose}
-            dialogClassName={'modal'}>
+			animation={false}
+            >
 			<Modal.Header closeButton >
 				<Modal.Title>WHAT AM I LOOKING AT?</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>
+			<Modal.Body style={{textAlign: 'center'}}>
 				Thanks for asking. <br></br>
 				<br></br>This is, of course, Ying Yang Twins for all seasons -
 				delivering four seasonal playlists from your favorite artist's top 50
@@ -25,7 +27,7 @@ function About(props) {
 				be frozen solid.<br></br>
 				<br></br>Use the player at the top to change the song, or buttons below to change the season. If you click on save playlist to Spotify it'll actually do it so be careful! Created using React,
 				a little React Bootstrap, Node, Express, and a lot of love by Joshua
-				Israel. Code available at{' '}
+				Israel. Code available at:{' '}
 				<a
 					style={{ textDecoration: 'underline' }}
 					href='https://github.com/joshri/for-all-season'>

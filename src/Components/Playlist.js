@@ -44,12 +44,11 @@ function Playlist(props) {
 				original={props.playlist}
 				season={season}
 				setSeason={setSeason}
-				userId={props.userId}
 				background={props.background}
 				setBackground={props.setBackground}
 				artist={props.artist}
 			/>
-			<div>
+			<div className='playlist'>
 				<ListGroup>
 					{season.map((track) => {
 						return (

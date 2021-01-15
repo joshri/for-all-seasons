@@ -1,100 +1,221 @@
 @import './config.scss';
 
-div {
+div:not(#root) {
 	@extend %flex;
-	width: 100%;
-	background: $background;
+	flex-wrap: nowrap;
+	width: 100vw;
 	opacity: 0;
-    animation: fadeIn 1.5s ease-in forwards;
-    //login
+	animation: fadeIn 1.5s ease-in forwards;
+	//login
 	&.animate {
+		background: $background;
 		justify-content: center;
 		min-height: 100vh;
 		min-width: 100vw;
-    }
-    &.post-title {
-        margin-top: 10vh;
-    }
-    //header
-    &.header-container {
-        align-items: start;
-        height: 20vh;
-        span {
-            font-size: 12px;
-        }
-    }
+	}
+	&.post-title {
+		margin-top: 10vh;
+	}
+	//header
+	&.header-container {
+		background: $background;
+	}
+	&.header-title {
+		flex-direction: row;
+		white-space: nowrap;
+	}
+	//artist form
+	&.artist-form-container {
+		border-top: 2px solid black;
+		border-bottom: 2px solid black;
+		background: $background;
+	}
+	&.artist-form {
+		width: 50%;
+		flex-direction: row;
+		padding: 5px;
+	}
+	//player
+	&.player-container {
+		background: $background;
+		width: 50%;
+		margin: 15px 0 15px 0;
+		padding: 10px;
+		border: 2px solid black;
+		border-radius: 20px;
+		text-align: center;
+	}
+	&.player-track,
+	&.player-controls {
+		flex-direction: row;
+		justify-content: space-evenly;
+		align-items: center;
+		width: 75%;
+	}
+	//playlist
+	&.list-group {
+		width: 80%;
+		background: $background;
+		border: 2px solid black;
+		border-radius: 20px;
+	}
+	&.list-group-item {
+		font-family: $body;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+		background: $background;
+	}
+	//sort and save
+	&.selector {
+		background: $background;
+		flex-direction: row;
+		border-top: 2px solid black;
+		border-bottom: 2px solid black;
+		margin-bottom: 30vh;
+	}
+	//special background divs
+	&.bg-div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 1;
+		height: 2rem;
+		width: 2rem;
+
+		&.Winter {
+			top: -180vh;
+			filter: blur(2px);
+			border-radius: 50%;
+			box-shadow: #{$snow};
+			animation: snowfall 10s linear infinite;
+			&.two {
+				box-shadow: #{$snow2};
+				animation-delay: 5s;
+			}
+		}
+	}
+	&.ray {
+		width: 200vw;
+		height: 3vh;
+		background: linear-gradient(to right, yellow 85%, transparent);
+		animation: ray 6s infinite ease-in;
+		opacity: 1;
+		position: absolute;
+		top: 0;
+		left: -100vw;
+		overflow: hidden;
+	}
 }
 
 h1 {
-    font-family: $title;
-    //login
+	font-family: $title;
+	//login
 	&.title {
-		font-size: 13vw;
+		font-size: 11vw;
 	}
 	span {
 		font-family: $body;
-    }
-    //header
-    &.header {
-        font-size: 10vw;
-        z-index: -1;
-        overflow: visible;
-        text-align: left;
-    }
+	}
+	//header
+	&.header {
+		margin: 0;
+		padding: 10px;
+		z-index: -1;
+		font-size: 11vw;
+	}
+	&.season-word {
+		position: absolute;
+		z-index: -1;
+		font-size: 11vw;
+		top: 67vh;
+	}
+}
+
+h3 {
+	font-family: $body;
+	font-size: 14px;
 }
 
 p {
-    //login
+	font-family: $body;
+	//login
 	&.animate-2 {
 		font-size: 5vw;
 		opacity: 0;
 		animation: fadeIn 1.5s 1.5s ease-in forwards;
 		margin: 0 0 0 50vw;
-    }
-    &.animate-3 {
-        font-size: 1.5vw;
-        opacity: 0;
+	}
+	&.animate-3 {
+		font-size: 1.5vw;
+		opacity: 0;
 		animation: fadeIn 1.5s 3s ease-in forwards;
-    }
+	}
+	//header
+	&.header-seasons {
+		font-size: 3vw;
+		margin: 10vh 10px 0 0;
+	}
 }
 
 a {
 	text-decoration: none;
-    color: black;
-    transition: color .5s, border .5s;
-    //login
-    &.animate-a {
-        border: 1.5px solid black;
-        border-radius: 10px;
-        padding: 5px;
-        animation: fadeIn 1.5s 3s ease-in forwards;
-    }
+	color: black;
+	transition: color 0.5s, border 0.5s;
+	//login
+	&.animate-a {
+		opacity: 0;
+		border: 1.5px solid black;
+		border-radius: 10px;
+		padding: 5px;
+		animation: fadeIn 1.5s 3s ease-in forwards;
+	}
 }
 
 a:hover {
-    color: $gold-highlight;
-    border-color: $gold-highlight;
-    text-decoration: none;
+	color: $gold-highlight;
+	border-color: $gold-highlight;
+	text-decoration: none;
 }
 
 button {
 	background: transparent;
 	border: none;
-	transition: color 0.5s;
+	transition: color 0.5s, border 0.5s;
 	font-family: $body;
+	&.playlist-save {
+		background: $background;
+		border: 2px solid black;
+		border-radius: 20px;
+		height: 150%;
+		margin-bottom: 20px;
+	}
 }
 
 button:hover {
 	color: $gold-highlight;
 }
-
+//about modal
 .modal {
-	background: '#E5CCEC';
+	max-width: none;
 }
-
+.modal-backdrop {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+//artist form
 form {
-    @extend %flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
+	@extend %flex;
+	flex-direction: row;
+	justify-content: center;
+	font-size: 100%;
+	input {
+		margin: 5px;
+		border-radius: 10px;
+		height: 50%;
+		padding: 2px;
+	}
+	label {
+		font-family: $body;
+		margin: 0;
+	}
 }

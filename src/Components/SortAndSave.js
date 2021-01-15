@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 
 function SortAndSave(props) {
+	let artist = props.artist;
 	let [alert, setAlert] = useState(false);
-	let [seasonWord, setSeasonWord] = useState('All Seasons');
 	let seasonInterval = Math.floor(props.original.length / 4);
 
 	async function createPlaylist() {
 		//setup
-		let name = `${props.artist.name} - ${seasonWord}`;
+		let name = `${artist.name} - ${props.background}`;
+		let userId = '';
 		let id = '';
 		let uris = [];
 		let data = JSON.stringify({
@@ -18,8 +19,20 @@ function SortAndSave(props) {
 		});
 		props.season.forEach((song) => uris.push(song.uri));
 
+		await fetch('https://api.spotify.com/v1/me', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${props.access}`,
+			},
+		})
+		.then(res => res.json())
+		.then(json => {
+			userId = json.id
+		});
+
 		//create playlist endpoint
-		await fetch(`https://api.spotify.com/v1/users/${props.userId}/playlists`, {
+		await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -50,18 +63,22 @@ function SortAndSave(props) {
 	}
 
 	useEffect(() => {
-        props.setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
-		setSeasonWord('All Seasons');
-	});
+		props.setBackground({
+			0: '#EDAEFF',
+			1: 'All Seasons',
+		});
+	}, [artist]);
 
 	return (
 		<div>
-			<div>
+			<div className='selector'>
 				<button
 					onClick={() => {
-						props.setBackground('linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)');
+						props.setBackground({
+							0: '#EDAEFF',
+							1: 'All Seasons',
+						});
 						props.setSeason(props.original);
-						setSeasonWord('All Seasons');
 					}}>
 					all
 				</button>
@@ -69,44 +86,48 @@ function SortAndSave(props) {
 				<button
 					onClick={() => {
 						props.setSeason(props.original.slice(0, seasonInterval));
-						props.setBackground('linear-gradient(#FF5629, #FFFFFF)');
-						setSeasonWord('Summer');
+						props.setBackground({
+							0: 'linear-gradient(to bottom right, yellow 10%, white)',
+							1: 'Summer'});
 					}}>
 					summer
 				</button>
 				<button
 					onClick={() => {
-						props.setBackground('linear-gradient(#F2FD89, #FFFFFF)');
+						props.setBackground({
+							0: 'yellow',
+							1: 'Spring'});
 						props.setSeason(
 							props.original.slice(seasonInterval, seasonInterval * 2 + 1)
 						);
-						setSeasonWord('Spring');
 					}}>
 					spring
 				</button>
 				<button
 					onClick={() => {
-						props.setBackground('linear-gradient(#FF9129 , #FFFFFF)');
+						props.setBackground({
+							0: 'orange',
+							1: 'Fall'});
 						props.setSeason(
 							props.original.slice(seasonInterval * 2, seasonInterval * 3 + 1)
 						);
-						setSeasonWord('Fall');
 					}}>
 					fall
 				</button>
 				<button
 					onClick={() => {
-						props.setBackground('linear-gradient(#6CFFDB, #FFFFFF)');
+						props.setBackground({
+							0: 'lightblue',
+							1: 'Winter'});
 						props.setSeason(props.original.slice(seasonInterval * 3));
-						setSeasonWord('Winter');
 					}}>
 					winter
 				</button>
 			</div>
 			<div>
 				<div>
-					<h1>{seasonWord}</h1>
-					<button
+					<h1 className='season-word'>{props.background[1]}</h1>
+					<button className='playlist-save'
 						onClick={() => {
 							createPlaylist();
 							setAlert(true);

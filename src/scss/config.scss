@@ -17,6 +17,25 @@ $gold-highlight: #A9772C;
 		opacity: 1;
 	}
 }
+@keyframes ray {
+	from {transform: rotate(0deg)}
+	to {transform: rotate(90deg)}
+}
+@keyframes snowfall {
+	100% {transform: translateY(200vh); opacity: 0 }
+}
+
+//season background variables
+$snow: '';
+$snow2: '';
+@for $i from 1 through 200 {
+	$snow: $snow + random(1000)*0.1vw + " " + random(2000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + " " + #fff;
+	$snow2: $snow2 + random(1000)*0.1vw + " " + random(2000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + " " + #fff;
+    @if $i < 200 {
+		$snow: $snow + ", ";
+		$snow2: $snow2 + ", ";
+    }
+}
 
 //extensions
 %flex {
@@ -62,3 +81,8 @@ $gold-highlight: #A9772C;
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/mixins';
+
+body {
+	margin: 0 !important;
+	padding: 0 !important;
+}

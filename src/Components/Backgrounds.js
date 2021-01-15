@@ -1,0 +1,30 @@
+import React from 'react';
+
+function Backgrounds(props) {
+	return (
+		<section>
+			{props.background[1] === 'Winter' ? (
+				<div style={{ opacity: 1 }}>
+					<div className={`bg-div ${props.background[1]}`}></div>
+					<div className={`bg-div ${props.background[1]} two`}></div>
+				</div>
+			) : (
+				<div></div>
+			)}
+			{props.background[1] === 'Summer' ? (
+				<div style={{ opacity: 1 }}>
+					<div className='ray'></div>
+					<div style={{ animationDelay: '1s' }} className='ray'></div>
+					<div style={{ animationDelay: '2s' }} className='ray'></div>
+					<div style={{ animationDelay: '3s' }} className='ray'></div>
+					<div style={{ animationDelay: '4s' }} className='ray'></div>
+					<div style={{ animationDelay: '5s' }} className='ray'></div>
+				</div>
+			) : (
+				<div></div>
+			)}
+		</section>
+	);
+}
+
+export default Backgrounds;

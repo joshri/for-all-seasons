@@ -9,9 +9,6 @@ function Home(props) {
 	let [ids, setIds] = useState([]);
 	let [features, setFeatures] = useState([]);
 	let [seasonSorted, setSeasonSorted] = useState([]);
-	let [background, setBackground] = useState(
-		'linear-gradient(#FF5629, #FF9129, #F2FD89,#6CFFDB)'
-	);
 
 	//break down state for useEffect dependencies
 	let access = props.access;
@@ -149,10 +146,9 @@ function Home(props) {
 					playerId={props.playerId}
 					playlist={seasonSorted}
 					access={props.access}
-					userId={props.id}
 					artist={artist}
-					background={background}
-					setBackground={setBackground}
+					background={props.background}
+					setBackground={props.setBackground}
 				/>
 			</div>
 		);
