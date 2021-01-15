@@ -3,6 +3,23 @@ import React from 'react';
 function Backgrounds(props) {
 	return (
 		<section>
+			{props.background[1] === 'Fall' ? (
+				<div className='fall'>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+					<i></i>
+				</div>
+			) : (
+				<div></div>
+			)}
 			{props.background[1] === 'Spring' ? (
 				<div style={{ opacity: 1 }}>
 					<div className='flower'>

@@ -1,0 +1,113 @@
+//special background divs
+div:not(#root) {
+	&.bg-div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 1;
+		height: 2rem;
+		width: 2rem;
+		&.Winter {
+			top: -180vh;
+			filter: blur(2px);
+			border-radius: 50%;
+			box-shadow: #{$snow};
+			animation: snowfall 10s linear infinite;
+			&.two {
+				box-shadow: #{$snow2};
+				animation-delay: 5s;
+			}
+		}
+	}
+	&.ray {
+		width: 200vw;
+		height: 3vh;
+		background: linear-gradient(to right, yellow 85%, transparent);
+		animation: ray 6s infinite ease-in;
+		opacity: 1;
+		position: absolute;
+		top: 0;
+		left: -100vw;
+		overflow: hidden;
+	}
+	&.flower {
+		opacity: 1;
+		position: absolute;
+		top: 70vh;
+		left: 20vw;
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+		background: $gold-highlight;
+		animation: petals 20s linear infinite;
+		
+		&.flower-right {
+			right: 20vw;
+			left: initial;
+		}
+		&.petal {
+			top: initial;
+			left: initial;
+			right: initial;
+			width: 350px;
+			height: 100px;
+			animation: none;
+			border: none;
+			opacity: 0.5;
+		}
+	}
+}
+.flower::after{
+    content: '';
+    border-radius: 50%;
+		width: 100px;
+		height: 100px;
+    border: 3px solid black;
+    background: #77DD77;
+}
+.fall {
+	position: absolute;
+	top: -50px;
+	width: 100%;
+	text-align: right;
+	opacity: 1;
+}
+i {
+	display: inline-block;
+	width: 200px;
+	height: 150px;
+	background: linear-gradient(to bottom right, #309900, #005600);
+	transform: skew(20deg);
+	border-radius: 5% 40% 70%;
+	box-shadow: inset 0px 0px 1px #222;
+	border: 1px solid #333;
+	z-index: 1;
+	animation: leaves 5s linear infinite;
+}
+i:before {
+	position: absolute;
+	content: '';
+	top: 117px;
+	right: 9px;
+	height: 27px;
+	width: 32px;
+	transform: rotate(49deg);
+	border-radius: 0% 15% 15% 0%;
+	border-top: 1px solid #222;
+	border-bottom: 1px solid #222;
+	border-left: 0px solid #222;
+	border-right: 1px solid #222;
+	background: linear-gradient(to right, rgba(0, 100, 0, 1), #005600);
+	z-index: 1;
+}
+i:after {
+	content: '';
+	height: 125px;
+	width: 10px;
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+	display: block;
+	transform: rotate(125deg);
+	position: absolute;
+	left: 85px;
+	border-radius: 50%;
+}

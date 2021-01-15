@@ -27,7 +27,9 @@ $gold-highlight: #A9772C;
 @keyframes petals {
 	100% {transform: rotate(360deg)}
 }
-
+@keyframes leaves {
+	100% {transform: translateY(200vh)}
+}
 //season background variables
 $snow: '';
 $snow2: '';
@@ -39,7 +41,6 @@ $snow2: '';
 		$snow2: $snow2 + ", ";
     }
 }
-
 
 //extensions
 %flex {
