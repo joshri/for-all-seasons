@@ -130,7 +130,7 @@ function Home(props) {
 
 	if (!seasonSorted.length) {
 		return (
-			<div>
+			<div className='loading'>
 				<Spinner animation='border' role='status'/>
 				<h4>Loading...</h4>
 				<p>Stuck? Your add blocker might be blocking the Spotify API!</p>

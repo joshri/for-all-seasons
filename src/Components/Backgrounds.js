@@ -3,6 +3,60 @@ import React from 'react';
 function Backgrounds(props) {
 	return (
 		<section>
+			{props.background[1] === 'Spring' ? (
+				<div style={{ opacity: 1 }}>
+					<div className='flower'>
+						<div className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(45deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(90deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(135deg)' }}
+							className='flower petal'></div>
+					</div>
+					<div className='flower flower-right'>
+						<div className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(45deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(90deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(135deg)' }}
+							className='flower petal'></div>
+					</div>
+					<div style={{ top: '25vh' }} className='flower'>
+						<div className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(45deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(90deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(135deg)' }}
+							className='flower petal'></div>
+					</div>
+					<div style={{ top: '25vh' }} className='flower flower-right'>
+						<div className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(45deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(90deg)' }}
+							className='flower petal'></div>
+						<div
+							style={{ transform: 'rotate(135deg)' }}
+							className='flower petal'></div>
+					</div>
+				</div>
+			) : (
+				<div></div>
+			)}
 			{props.background[1] === 'Winter' ? (
 				<div style={{ opacity: 1 }}>
 					<div className={`bg-div ${props.background[1]}`}></div>

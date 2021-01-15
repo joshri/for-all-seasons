@@ -18,11 +18,14 @@ $gold-highlight: #A9772C;
 	}
 }
 @keyframes ray {
-	from {transform: rotate(0deg)}
+	from {transform: rotate(10deg)}
 	to {transform: rotate(90deg)}
 }
 @keyframes snowfall {
 	100% {transform: translateY(200vh); opacity: 0 }
+}
+@keyframes petals {
+	100% {transform: rotate(360deg)}
 }
 
 //season background variables
@@ -36,6 +39,7 @@ $snow2: '';
 		$snow2: $snow2 + ", ";
     }
 }
+
 
 //extensions
 %flex {

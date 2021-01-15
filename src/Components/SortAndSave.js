@@ -95,7 +95,7 @@ function SortAndSave(props) {
 				<button
 					onClick={() => {
 						props.setBackground({
-							0: 'yellow',
+							0: '#77DD77',
 							1: 'Spring'});
 						props.setSeason(
 							props.original.slice(seasonInterval, seasonInterval * 2 + 1)

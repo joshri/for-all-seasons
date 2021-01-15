@@ -36,7 +36,7 @@ function ArtistForm(props) {
 					/>
 					<button type='submit'>search</button>
 				</form>
-				<div style={{marginLeft: '10vw'}}>
+				<div style={{marginLeft: '5vw'}}>
 					<button onClick={handleShow}>about</button>
 				</div>
 			</div>
