@@ -1,7 +1,8 @@
 import React from 'react';
 
 function Login(props) {
-	const backLink = 'http://localhost:8080/auth/spotify';
+	const published = 'https://seasons-backend.herokuapp.com/auth/spotify';
+	const backLink = published || 'http://localhost:8080/auth/spotify';
 
 	return (
 		<div className='animate'>
