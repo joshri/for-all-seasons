@@ -28,7 +28,18 @@ $gold-highlight: #A9772C;
 	100% {transform: rotate(360deg)}
 }
 @keyframes leaves {
-	100% {transform: translateY(200vh)}
+	100% {transform: translateY(150vh)}
+}
+@keyframes sway {
+	25% {transform: translate3d(-200px, -40px, 0)}
+	50% {transform: translate3d(200px, 40px, 0)}
+	75% {transform: translate3d(-200px, -40px, 0)}
+	100% {transform: translate3d(0px, 0px, 0)}
+}
+@keyframes tilt {
+	25% {transform: skew(45deg)}
+	75% {transform: skew(-45deg)}
+	100% {transform: skew(20deg)}
 }
 //season background variables
 $snow: '';

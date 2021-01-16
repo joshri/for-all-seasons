@@ -5,17 +5,21 @@ function Backgrounds(props) {
 		<section>
 			{props.background[1] === 'Fall' ? (
 				<div className='fall'>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
-					<i></i>
+					<div>
+						<i style={{ animationDelay: '7s' }}></i>
+						<i style={{ animationDelay: '4s' }}></i>
+						<i></i>
+					</div>
+					<div>
+						<i style={{ animationDelay: '8s' }}></i>
+						<i style={{ animationDelay: '6s' }}></i>
+						<i style={{ animationDelay: '2s' }}></i>
+					</div>
+					<div>
+						<i style={{ animationDelay: '5s' }}></i>
+						<i style={{ animationDelay: '3s' }}></i>
+						<i style={{ animationDelay: '1s' }}></i>
+					</div>
 				</div>
 			) : (
 				<div></div>
