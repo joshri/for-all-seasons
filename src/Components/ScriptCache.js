@@ -29,7 +29,6 @@ export class ScriptCache {
 		return this.scriptTag(src)
 			.then(() => {
 				if (this.callbacks.hasOwnProperty(src)) {
-					console.log(this);
 					this.callbacks[src](); // run a callback for this script if it exists
 				}
 				if (this.pending.length === 0 && this.onSuccess) {

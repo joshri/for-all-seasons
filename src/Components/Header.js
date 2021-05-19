@@ -1,36 +1,14 @@
 import React from 'react';
+import ArtistForm from './ArtistForm';
 
 function Header(props) {
 	return (
-		<div
-			style={{
-				height: '15vh',
-				width: '100vw',
-				marginBottom: '10px',
-				backgroundColor: '#EDAEFF',
-				display: 'flex',
-				flexWrap: 'nowrap',
-			}}>
-			<h1
-				style={{
-					fontSize: '11vw',
-					fontFamily: "'Sacramento', cursive",
-					padding: '10px',
-					margin: 0,
-				}}>
-				{props.artist.name || 'Ying Yang Twins'}{' '}
-				<span
-					style={{
-						fontFamily: "'Montserrat', sans-serif",
-						fontSize: '18px',
-						marginTop: 0,
-						marginBottom: '10vh',
-						display: 'inline-block',
-					}}>
-					{' '}
-					- for all seasons
-				</span>
-			</h1>
+		<div className='header-container'>
+			<div className='header-title'>
+				<h1 className='header'>{props.artist.name || 'Ying Yang Twins'}</h1>
+				<p className='header-seasons'> - for all seasons</p>
+			</div>
+			<ArtistForm access={props.access} setArtist={props.setArtist} />
 		</div>
 	);
 }

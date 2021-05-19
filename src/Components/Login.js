@@ -1,65 +1,25 @@
 import React from 'react';
 
 function Login(props) {
+	const published = 'https://seasons-backend.herokuapp.com/auth/spotify';
+	const backLink = published || 'http://localhost:8080/auth/spotify';
+
 	return (
-		<div
-			style={{
-				top: 0,
-				left: 0,
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-				animation: 'fadeIn 1.5s ease-in forwards',
-				backgroundColor: '#EDAEFF',
-				backgroundSize: 'cover',
-				minHeight: '100vh',
-				minWidth: '100vw',
-			}}>
+		<div className='animate'>
 			<h1 className='title'>Ying Yang Twins</h1>
 
-			<p
-				style={{
-					fontSize: '5vw',
-					marginTop: 0,
-					marginLeft: '50vw',
-					opacity: 0,
-					animation: 'fadeIn 1.5s 1.5s ease-in forwards',
-				}}>
-				for all seasons
-			</p>
-			<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}>
-				<h3
-					style={{
-						opacity: 0,
-						marginTop: '10vh',
-						fontSize: '14px',
-						animation: 'fadeIn 1.5s 3s ease-in forwards',
-					}}>
-					Powered by Spotify
-				</h3>
-				<p
-					style={{
-						animation: 'fadeIn 1.5s 3s ease-in forwards',
-						opacity: 0,
-						fontSize: '14px',
-						width: '100vw',
-						textAlign: 'center',
-					}}>
-					Premium and disabled add blocker required
-				</p>
-				<a
-					href='https://seasons-backend.herokuapp.com/auth/spotify'
-					style={{
-						animation: 'fadeIn 1.5s 3s ease-in forwards',
-						border: '1px solid black',
-						opacity: 0,
-						borderRadius: '5px',
-						padding: '5px',
-					}}>
-					login
-				</a>
-			</div>
+			<p className='animate-2'>for all seasons</p>
+			{props.code ? (
+				<p className='animate-3'>loading</p>
+			) : (
+				<div className='post-title'>
+					<p className='animate-3'>Powered by Spotify</p>
+					<p className='animate-3'>Premium and disabled add blocker required</p>
+					<a className='animate-a' href={backLink}>
+						login
+					</a>
+				</div>
+			)}
 		</div>
 	);
 }

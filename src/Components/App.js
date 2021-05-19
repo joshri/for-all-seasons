@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './App.scss';
 import Home from './Home';
 import Header from './Header';
 import Login from './Login';
-import ArtistForm from './ArtistForm';
-
+import Backgrounds from './Backgrounds';
 import { ScriptCache } from './ScriptCache';
 
-//handle login - get token - initialize player
-
 function App() {
-	let [playerId, setPlayerId] = useState('');
+	//pull tokens
+	const queryString = require('query-string');
+	let parsed = queryString.parse(window.location.search);
+	//tokens
 	let [access, setAccess] = useState('');
-	let [ready, setReady] = useState(false)
 	let [refresh, setRefresh] = useState('');
-	let [id, setId] = useState('');
-	let [artist, setArtist] = useState({name: 'Ying Yang Twins'});
+	//web player sdk
+	let [playerId, setPlayerId] = useState('');
+	let [ready, setReady] = useState(false);
+	//spotify api data
+	let [artist, setArtist] = useState({ name: 'Ying Yang Twins' });
 	let [tracks, setTracks] = useState('');
 	let [currentlyPlaying, setCurrentlyPlaying] = useState({
-		name: "Naggin'",
-		cover: "https://i.scdn.co/image/ab67616d000048511f52a7e9b573959c8e430974",
-		artists: [{name: "Ying Yang Twins"}],
+		name: 'Select a Track!',
+		cover: 'https://i.scdn.co/image/ab67616d000048511f52a7e9b573959c8e430974',
+		artists: [{ name: '' }],
 	});
-  
+	//ambitious background
+	let [background, setBackground] = useState({
+		0: '#EDAEFF',
+		1: 'All Seasons',
+	});
+
+	//web player set up - see script cache class below
 	function spotifySDKCallback() {
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			if (access && !ready) {
@@ -38,7 +45,7 @@ function App() {
 
 				// Playback status updates
 				player.addListener('player_state_changed', (state) => {
-					let track = state.track_window.current_track
+					let track = state.track_window.current_track;
 					if (track.name === currentlyPlaying.name) {
 						return;
 					} else {
@@ -46,16 +53,15 @@ function App() {
 							name: track.name,
 							cover: track.album.images[1].url,
 							artists: track.artists,
+							uri: track.uri,
 						});
 					}
-
 				});
 
 				// Ready
 				player.addListener('ready', ({ device_id }) => {
 					setReady(true);
 					setPlayerId(device_id);
-					console.log('Ready with Device ID', device_id);
 				});
 
 				// Connect to the player!
@@ -74,28 +80,19 @@ function App() {
 	]);
 
 	useEffect(() => {
-		//grab access token and user id after login
-		const queryString = require('query-string');
-    	let parsed = queryString.parse(window.location.search);
-		setAccess(parsed.accesstoken);
-		setRefresh(parsed.refreshtoken);
-    	setId(parsed.id);
-	}, []);
+		//grab tokens and user id from url using query string module after login
+		setAccess(parsed.access_token);
+		setRefresh(parsed.refresh_token);
+	}, [parsed]);
 
 	//if there is no access token render login
 	if (!access) {
-		return <Login />;
+		return <Login/>;
 	} else {
 		return (
-			<div
-				style={{
-					opacity: 0,
-					animation: 'fadeIn 1.5s ease-in forwards',
-					backgroundColor: '#EDAEFF',
-					
-				}}>
+			<main style={{ background: background[0] }}>
+				<Backgrounds background={background} />
 				<Header artist={artist} access={access} setArtist={setArtist} />
-				<ArtistForm access={access} setArtist={setArtist} />
 				<Home
 					currentlyPlaying={currentlyPlaying}
 					setCurrentlyPlaying={setCurrentlyPlaying}
@@ -105,9 +102,10 @@ function App() {
 					setTracks={setTracks}
 					tracks={tracks}
 					access={access}
-					id={id}
+					background={background}
+					setBackground={setBackground}
 				/>
-			</div>
+			</main>
 		);
 	}
 }

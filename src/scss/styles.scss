@@ -1,0 +1,215 @@
+div:not(#root) {
+  @extend %flex;
+  flex-wrap: nowrap;
+  width: 100vw;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in forwards;
+  //login
+  &.animate {
+    background: $background;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 100vw;
+  }
+  &.post-title {
+    margin-top: 10vh;
+  }
+  //header
+  &.header-container {
+    background: $background;
+  }
+  &.header-title {
+    flex-direction: row;
+    white-space: nowrap;
+  }
+  //artist form
+  &.artist-form-container {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    background: $background;
+  }
+  &.artist-form {
+    width: 50%;
+    flex-direction: row;
+    padding: 5px;
+  }
+  &.loading {
+    height: 100vh;
+    justify-content: start;
+    border: none;
+  }
+  //player
+  &.player-container {
+    background: $background;
+    width: 50%;
+    margin: 15px 0 15px 0;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+  }
+  &.player-track,
+  &.player-controls {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 75%;
+    margin: 10px;
+  }
+  //playlist
+  &.list-group {
+    width: 80%;
+    background: $background;
+    border: 2px solid black;
+    border-radius: 20px;
+  }
+  &.list-group-item {
+    font-family: $body;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    background: $background;
+  }
+  //sort and save
+  &.selector {
+    background: $background;
+    flex-direction: row;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-bottom: 30vh;
+  }
+}
+
+h1 {
+  font-family: $title;
+  //login
+  &.title {
+    font-size: 11vw;
+  }
+  span {
+    font-family: $body;
+  }
+  //header
+  &.header {
+    margin: 0;
+    padding: 10px;
+    z-index: -1;
+    font-size: 11vw;
+  }
+  &.season-word {
+    z-index: -1;
+    font-size: 11vw;
+  }
+}
+
+h3 {
+  font-family: $body;
+  font-size: 14px;
+}
+
+p {
+  font-family: $body;
+  //login
+  &.animate-2 {
+    font-size: 5vw;
+    opacity: 0;
+    animation: fadeIn 1.5s 1.5s ease-in forwards;
+    margin: 0 0 0 50vw;
+  }
+  &.animate-3 {
+    font-size: 1.5vw;
+    opacity: 0;
+    animation: fadeIn 1.5s 3s ease-in forwards;
+  }
+  //header
+  &.header-seasons {
+    font-size: 3vw;
+    margin: 10vh 10px 0 0;
+  }
+  &.artist-map {
+    font-size: 12px;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  transition: color 0.5s, border 0.5s;
+  //login
+  &.animate-a {
+    opacity: 0;
+    border: 1.5px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    animation: fadeIn 1.5s 3s ease-in forwards;
+  }
+}
+a:hover,
+button:hover {
+  color: $orange-highlight;
+  border-color: $orange-highlight;
+  text-decoration: none;
+}
+button {
+  background: transparent;
+  border: none;
+  transition: color 0.5s, border 0.5s;
+  font-family: $body;
+  &.playlist-save {
+    background: $background;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 150%;
+    margin-bottom: 20px;
+  }
+}
+//about modal
+.modal {
+  max-width: none;
+}
+.modal-backdrop {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+//artist form
+form {
+  @extend %flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 100%;
+  font-family: $body;
+  input {
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 50%;
+    padding: 2px;
+    font-size: 80%;
+  }
+  label {
+    margin: 0;
+  }
+}
+@media (max-width: 480px) {
+  img {
+    width: 50%;
+    height: 50%;
+  }
+  div:not(#root) {
+    &.player-container {
+      width: 90vw;
+    }
+  }
+  button,
+  label {
+    font-size: 10px;
+  }
+  h5 {
+    font-size: 12px;
+  }
+  form {
+    input {
+      width: 30vw;
+      font-size: 20%;
+    }
+  }
+}
